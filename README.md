@@ -1,1 +1,1 @@
-# Tris-AIProject
+# TicTacToe-AIProject
