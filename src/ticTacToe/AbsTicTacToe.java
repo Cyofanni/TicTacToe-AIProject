@@ -1,5 +1,9 @@
 package ticTacToe;
 
+import AI.Algorithms.IMinimax;
+import AI.Algorithms.Minimax;
+import AI.EF.IEvalFunction;
+import AI.EF.SimpleEF;
 import config.AbsConfig;
 
 import java.io.IOException;
@@ -64,39 +68,57 @@ public abstract class AbsTicTacToe {
     /* -------------------------------------------------------------------- */
 
     public void start(){
-        if(this.config.getTypeOfGame()) {
-            try {
-                int n = this.config.getNRows();
-                while (!this.checkWinner(this.activePlayer)) {
-                    this.printField();
+        System.out.println("---------- START --------");
+        this.printField();
+        int n = this.config.getNRows();
+        try {
+            if(!this.config.getTypeOfGame()) {
+                while (!this.checkEnd() && !this.checkWinner(this.activePlayer))
+                {
                     AbsMove move = this.askMove(this.activePlayer);
                     this.move(move);
-                }
-                System.out.println("---------- END ----------");
-                System.out.println("The winner is: Player" + this.activePlayer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else{
-            try {
-                int n = this.config.getNRows();
-                while (!this.checkWinner(this.activePlayer)) {
                     this.printField();
+                }
+            } else{
+                while (!this.checkEnd() && !this.checkWinner(this.activePlayer))
+                {
                     AbsMove move;
-                    if(this.activePlayer == 1) {
+                    if(this.activePlayer == 0) {
                         move = this.askMove(this.activePlayer);
                     } else {
-                        //TODO: Use AI
-                        move = this.askMove(this.activePlayer);
+                        //Initialize the IA
+                        IEvalFunction f;
+                        switch (this.config.getEF()){
+                            case 0:
+                            default: f = new SimpleEF();
+                        }
+
+                        IMinimax alg;
+                        switch (this.config.getAlgorithm()){
+                            case 0:
+                            default: alg = new Minimax(
+                                    this.getConfig().getDepth(),
+                                    f);
+                        }
+                        move = alg.computeMove(this);
+                        System.out.println("Move of the AI: "
+                                + move.getX() + " " + move.getY());
                     }
                     this.move(move);
+                    this.printField();
                 }
-                System.out.println("---------- END ----------");
-                System.out.println("The winner is: Player" + this.activePlayer);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        if(this.checkWinner()){
+            System.out.println("The winner is: Player" + this.activePlayer);
+        } else {
+            System.out.println("The winner is: Parity");
+        }
+        System.out.println("---------- END ----------");
+
     }
 
 
@@ -246,6 +268,22 @@ public abstract class AbsTicTacToe {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    /**
+     * This method checks for the end of the game
+     * @return TRUE or FALSE
+     */
+    public boolean checkEnd(){
+        int n = this.config.getNRows();
+        for(int row = 0; row < n; row ++){
+            for(int column = 0; column < n; column ++){
+                if (this.field[row][column] == AbsTicTacToe.BLANKVALUE){
+                   return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**

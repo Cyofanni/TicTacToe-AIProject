@@ -33,16 +33,16 @@ public class AbsConfig  {
     /**
      * The evaluation function used by the algorithm choose
      */
-    private int FA = 0;
+    private int EF = 0;
     /**
      * Max depth used by the algorithm
      */
     private int depth = 0;
 
     /**
-     * Array representing the different FA
+     * Array representing the different EF
      */
-    private String[] FAs = {
+    private String[] EFs = {
             "Function number 1", "Function number 2"
     };
 
@@ -59,12 +59,13 @@ public class AbsConfig  {
      */
     public void startInitialConfig() {
         System.out.println("---------- Initial Config ----------");
+        this.askFirstPlayer();
         this.askNRows();
         this.askNLockedCells();
         this.askTypeOfGame();
         if(this.againstPC){
             this.askAlgorithm();
-            this.askFA();
+            this.askEF();
             this.askMaxDepth();
         }
         System.out.println("---------- End initial Config ----------");
@@ -81,7 +82,7 @@ public class AbsConfig  {
         System.out.println("Insert the number of the first player: ");
         System.out.println(" 0 - Player0");
         System.out.println(" 1 - Player1");
-        System.out.println("Number: ");
+        System.out.print("Number: ");
         Scanner reader = new Scanner(System.in);
         int number = reader.nextInt();
         if(number >= 0 && number <=1)
@@ -165,23 +166,23 @@ public class AbsConfig  {
     }
 
     /**
-     * Ask the user the FA of the AI
+     * Ask the user the EF of the AI
      */
-    protected void askFA(){
-        System.out.println("Choose one of these FA");
-        int max = this.FAs.length;
+    protected void askEF(){
+        System.out.println("Choose one of these EF");
+        int max = this.EFs.length;
         for(int i = 0; i < max; i++){
-            System.out.println("  " + i + " - " + this.FAs[i]);
+            System.out.println("  " + i + " - " + this.EFs[i]);
         }
         System.out.print("Number: ");
         Scanner reader = new Scanner(System.in);
         int number = reader.nextInt();
         if(number >= 0 && number < max)
         {
-            this.FA = number;
+            this.EF = number;
         }else{
             System.out.print("Error: Try again");
-            this.askFA();
+            this.askEF();
         }
     }
 
@@ -249,8 +250,8 @@ public class AbsConfig  {
      * Return the function chosen by the player
      * @return function
      */
-    public int getFA(){
-        return this.FA;
+    public int getEF(){
+        return this.EF;
     }
 
     /**
@@ -277,8 +278,8 @@ public class AbsConfig  {
             int nAlgorithm = this.getAlgorithm();
             System.out.println("Algorithm: " + nAlgorithm + " - "
                     + this.algorithms[nAlgorithm]);
-            int nFA = this.getFA();
-            System.out.println("FA: " + nFA + " - " + this.FAs[nFA]);
+            int nEF = this.getEF();
+            System.out.println("EF: " + nEF + " - " + this.EFs[nEF]);
             System.out.println("Max depth: " + this.getDepth());
         }
     }
