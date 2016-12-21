@@ -1,4 +1,5 @@
 import ticTacToe.TicTacToe;
+import ticTacToe.AbsMove;
 
 final public class MinimaxImpl{
 	int depth;
@@ -11,23 +12,21 @@ final public class MinimaxImpl{
 	}
 
 	private double maxValue(TicTacToe state, int depthP){
-		if (state.checkWinner() || depthP == 0){  
-			// f may accept player character (TODO) 
+		if (state.checkWinner() || depthP == 0){   
 			return f(state); 
 		}
 
 		double v = Double.MIN_VALUE;
 		
-		ArrayList<Move> actions = computeActions(state.getField());		
+		ArrayList<AbsMove> actions = computeActions(state.getField());		
 		for (int i = 0; i < actions.length; i++){
-			Move currAction = actions[i];
-			TicTacToe newState = state.move(currActions.getX(), currActions.getY()); 
+			TicTacToe newState = state.move(actions[i]); 
 
                         double min = minValue(newState, depthP - 1);
 
 			if (min > v){
-				v = min
-			}	
+				v = min;
+			}
 		}
 
 		return v;
@@ -40,31 +39,33 @@ final public class MinimaxImpl{
 
               double v = Double.MAX_VALUE;
 
-              ArrayList<Move> actions = computeActions(state.getField());
+              ArrayList< AbsMove> actions = computeActions(state.getField());
               for (int i = 0; i < actions.length; i++){
-                        Move currAction = actions[i];
-                        TicTacToe newState = state.move(currActions.getX(), currActions.getY());
+                        TicTacToe newState = state.move(actions[i]);
 
 			double max = maxValue(newState, depthP - 1);
 
                         if (max < v){
-                                v = max
+                                v = max;
                         }
                 }
 
                 return v;
 	}
 
-	Move computeMove(TicTacToe state){
-		ArrayList<Move> actions = computeActions(state.getField());  
-	        int max = Integer.MIN_VALUE;	
+	public AbsMove computeMove(TicTacToe state){
+		ArrayList<AbsMove> actions = computeActions(state.getField());
+	        double max = Integer.MIN_VALUE;
+		AbsMove bestMove = null;
+		
 		for (int i = 0; i < actions.size(); i++){
 			double minValue = minValue(state.play(actions[i]), depth);
 			if (minValue > max){
 				max = minValue;
+				bestMove = actions[i];
 			}
 		}
 
-		return max;
+		return bestMove;
 	}
 }
