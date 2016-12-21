@@ -2,12 +2,17 @@ package AI.Algorithms;
 
 import AI.EF.IEvalFunction;
 import ticTacToe.AbsTicTacToe;
-import ticTacToe.Move;
 import ticTacToe.TicTacToe;
 import ticTacToe.AbsMove;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+/**
+ * This class implements the {@link IMinimax IMinimax} algorithm
+ *
+ * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
+ */
 final public class Minimax implements IMinimax{
 	int depth;
 	IEvalFunction f;
@@ -19,7 +24,7 @@ final public class Minimax implements IMinimax{
 	}
 
 	private double maxValue(TicTacToe state, int depthP) throws IOException {
-		if (state.checkWinner() || depthP == 0){   
+		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
 		double v = Double.MIN_VALUE;
@@ -38,7 +43,7 @@ final public class Minimax implements IMinimax{
 	}
 
 	private double minValue(TicTacToe state, int depthP) throws IOException {
-		if (state.checkWinner() || depthP == 0){
+		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
 		double v = Double.MAX_VALUE;

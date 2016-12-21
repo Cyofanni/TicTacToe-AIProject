@@ -73,14 +73,14 @@ public abstract class AbsTicTacToe {
         int n = this.config.getNRows();
         try {
             if(!this.config.getTypeOfGame()) {
-                while (!this.checkEnd() && !this.checkWinner(this.activePlayer))
+                while (!this.checkEnd())
                 {
                     AbsMove move = this.askMove(this.activePlayer);
                     this.move(move);
                     this.printField();
                 }
             } else{
-                while (!this.checkEnd() && !this.checkWinner(this.activePlayer))
+                while (!this.checkEnd())
                 {
                     AbsMove move;
                     if(this.activePlayer == 0) {
@@ -187,87 +187,67 @@ public abstract class AbsTicTacToe {
      */
     public boolean move(AbsMove move) throws IOException{
         this.move(this.activePlayer, move);
-        boolean result = this.checkWinner(this.activePlayer);
+        boolean result = this.checkWinner();
         if(!result)
             this.activePlayer = (this.activePlayer + 1) % 2;
         return result;
     }
 
     /**
-     * This method checks for the winner of the play
-     * @param player Number of the player
-     * @return TRUE if the player win the game
-     * @throws IOException Number of the player not correct
-     */
-    protected boolean checkWinner(int player) throws IOException{
-        if(player >= 0 && player <= 1){
-            int n = this.config.getNRows();
-            // Find solutions in columns
-            int cColumn;
-            for(int row = 0; row < n; row ++){
-                cColumn = 0;
-                for(int column = 0; column < n; column ++){
-                    if(this.field[row][column] == this.PLAYERSVALUE[player]){
-                        cColumn ++;
-                    } else{
-                        break;
-                    }
-                }
-                if(cColumn == n){
-                    return true;
-                }
-            }
-
-            // Find solutions in rows
-            int cRow;
-            for(int column = 0; column < n; column ++){
-                cRow = 0;
-                for(int row = 0; row < n; row ++){
-                    if(this.field[row][column] == this.PLAYERSVALUE[player]){
-                        cRow ++;
-                    } else{
-                        break;
-                    }
-                }
-                if(cRow == n){
-                    return true;
-                }
-            }
-
-            // Find solutions in diagonals
-            int cDiagonal1 = 0;
-            int cDiagonal2 = 0;
-            for(int i = 0; i < n; i ++){
-                if(this.field[i][i] == this.PLAYERSVALUE[player]){
-                    cDiagonal1 ++;
-                }
-                if(this.field[i][n-i-1] == this.PLAYERSVALUE[player]){
-                    cDiagonal2 ++;
-                }
-            }
-            if(cDiagonal1 == n || cDiagonal2 == n){
-                return true;
-            }
-        } else{
-            throw new IOException
-                    ("Error, the number of the player is not correct");
-        }
-        return false;
-    }
-
-    /**
-     * This method checks for the winner of the play
+     * This method checks if the current active player is the winner
      * @return TRUE if the player win the game
      */
     public boolean checkWinner(){
-        try {
-            if(this.checkWinner(0) || this.checkWinner(1))
+        int n = this.config.getNRows();
+        // Find solutions in columns
+        int cColumn;
+        for(int row = 0; row < n; row ++){
+            cColumn = 0;
+            for(int column = 0; column < n; column ++){
+                if(this.field[row][column] ==
+                        this.PLAYERSVALUE[this.activePlayer]){
+                    cColumn ++;
+                } else{
+                    break;
+                }
+            }
+            if(cColumn == n){
                 return true;
-            else
-                return false;
-        } catch (IOException e) {
-            return false;
+            }
         }
+
+        // Find solutions in rows
+        int cRow;
+        for(int column = 0; column < n; column ++){
+            cRow = 0;
+            for(int row = 0; row < n; row ++){
+                if(this.field[row][column] ==
+                        this.PLAYERSVALUE[this.activePlayer]){
+                    cRow ++;
+                } else{
+                    break;
+                }
+            }
+            if(cRow == n){
+                return true;
+            }
+        }
+
+        // Find solutions in diagonals
+        int cDiagonal1 = 0;
+        int cDiagonal2 = 0;
+        for(int i = 0; i < n; i ++){
+            if(this.field[i][i] == this.PLAYERSVALUE[this.activePlayer]){
+                cDiagonal1 ++;
+            }
+            if(this.field[i][n-i-1] == this.PLAYERSVALUE[this.activePlayer]){
+                cDiagonal2 ++;
+            }
+        }
+        if(cDiagonal1 == n || cDiagonal2 == n){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -276,14 +256,16 @@ public abstract class AbsTicTacToe {
      */
     public boolean checkEnd(){
         int n = this.config.getNRows();
-        for(int row = 0; row < n; row ++){
-            for(int column = 0; column < n; column ++){
+        boolean checkField = true;
+        for(int row = 0; row < n && checkField; row ++){
+            for(int column = 0; column < n && checkField; column ++){
                 if (this.field[row][column] == AbsTicTacToe.BLANKVALUE){
-                   return false;
+                   checkField = false;
                 }
             }
         }
-        return true;
+
+        return checkField || this.checkWinner();
     }
 
     /**
@@ -313,7 +295,7 @@ public abstract class AbsTicTacToe {
      */
     protected AbsMove askMove(int player){
         Scanner reader = new Scanner(System.in);
-        System.out.println("Make your move player " + player);
+        System.out.println("Make your move player" + player);
         int n = this.config.getNRows();
         int nRow;
         int nColumn;

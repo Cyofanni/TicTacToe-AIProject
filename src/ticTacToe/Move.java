@@ -1,7 +1,7 @@
 package ticTacToe;
 
 /**
- * This class represent a move
+ * This class extends the {@link AbsMove AbsMove}
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */

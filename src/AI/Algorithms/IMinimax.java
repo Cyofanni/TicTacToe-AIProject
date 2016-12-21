@@ -3,7 +3,11 @@ package AI.Algorithms;
 import ticTacToe.AbsMove;
 import ticTacToe.AbsTicTacToe;
 
-//IMinimax basic algorithm
+/**
+ * This interface represents the Minimax algorithm
+ *
+ * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
+ */
 public interface IMinimax {
 	public AbsMove computeMove(AbsTicTacToe state);
 }
