@@ -1,5 +1,6 @@
 package AI.Algorithms;
 
+import AI.AIUtils;
 import AI.EF.IEvalFunction;
 import ticTacToe.AbsTicTacToe;
 import ticTacToe.TicTacToe;
@@ -28,7 +29,7 @@ final public class Minimax implements IMinimax{
 			return f.eval(state);
 		}
 		double v = Double.MIN_VALUE;
-		ArrayList<AbsMove> actions = AlgosUtils.
+		ArrayList<AbsMove> actions = AIUtils.
 				computeActions(state.getField());
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
@@ -47,7 +48,7 @@ final public class Minimax implements IMinimax{
 			return f.eval(state);
 		}
 		double v = Double.MAX_VALUE;
-		ArrayList< AbsMove> actions = AlgosUtils.
+		ArrayList< AbsMove> actions = AIUtils.
 		computeActions(state.getField());
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
@@ -63,7 +64,7 @@ final public class Minimax implements IMinimax{
 
 	@Override
 	public AbsMove computeMove(AbsTicTacToe state){
-		ArrayList<AbsMove> actions = AlgosUtils.
+		ArrayList<AbsMove> actions = AIUtils.
 				computeActions(state.getField());
 		double max = Integer.MIN_VALUE;
 		AbsMove bestMove = null;

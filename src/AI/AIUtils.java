@@ -1,4 +1,4 @@
-package AI.Algorithms;
+package AI;
 
 import ticTacToe.AbsTicTacToe;
 import ticTacToe.AbsMove;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
-public class AlgosUtils{
+public class AIUtils {
 	public static ArrayList<AbsMove> computeActions(char[][] board){
 		int n = board.length;
 		ArrayList<AbsMove> resActions = new ArrayList<AbsMove>();
