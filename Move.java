@@ -1,3 +1,6 @@
+/*
+	  represents a move on the board 
+*/
 public class Move{
 	private int x;
 	private int y;
