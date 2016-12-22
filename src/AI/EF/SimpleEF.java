@@ -1,5 +1,6 @@
 package AI.EF;
 
+import AI.AIUtils;
 import ticTacToe.AbsTicTacToe;
 
 /**
@@ -11,6 +12,6 @@ public class SimpleEF implements IEvalFunction{
 
     @Override
     public double eval(AbsTicTacToe state) {
-        return 0;
+        return AIUtils.SimpleAIAlgorithm(state.getField(),1);
     }
 }

@@ -5,7 +5,6 @@ import AI.EF.IEvalFunction;
 import ticTacToe.AbsTicTacToe;
 import ticTacToe.TicTacToe;
 import ticTacToe.AbsMove;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -73,7 +72,7 @@ final public class Minimax implements IMinimax{
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 			double minValue = minValue(newState, depth);
-			if (minValue > max){
+			if (minValue >= max){
 				max = minValue;
 				bestMove = actions.get(i);
 			}

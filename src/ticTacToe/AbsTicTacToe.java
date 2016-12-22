@@ -2,6 +2,7 @@ package ticTacToe;
 
 import AI.Algorithms.IMinimax;
 import AI.Algorithms.Minimax;
+import AI.EF.AdvanceEF;
 import AI.EF.IEvalFunction;
 import AI.EF.SimpleEF;
 import config.AbsConfig;
@@ -88,6 +89,9 @@ public abstract class AbsTicTacToe {
                     //Initialize the IA
                     IEvalFunction f;
                     switch (this.config.getEF()){
+                        case 1:
+                            f = new AdvanceEF();
+                            break;
                         case 0:
                         default: f = new SimpleEF();
                     }
