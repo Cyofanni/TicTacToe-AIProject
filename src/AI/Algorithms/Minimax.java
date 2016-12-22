@@ -24,7 +24,7 @@ final public class Minimax implements IMinimax{
 		this.f = f;
 	}
 
-	private double maxValue(TicTacToe state, int depthP) throws IOException {
+	private double maxValue(TicTacToe state, int depthP) {
 		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
@@ -43,7 +43,7 @@ final public class Minimax implements IMinimax{
 		return v;
 	}
 
-	private double minValue(TicTacToe state, int depthP) throws IOException {
+	private double minValue(TicTacToe state, int depthP) {
 		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
@@ -71,15 +71,11 @@ final public class Minimax implements IMinimax{
 		
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
-			try {
-				newState.move(actions.get(i));
-				double minValue = minValue(newState, depth);
-				if (minValue > max){
-					max = minValue;
-					bestMove = actions.get(i);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+			newState.move(actions.get(i));
+			double minValue = minValue(newState, depth);
+			if (minValue > max){
+				max = minValue;
+				bestMove = actions.get(i);
 			}
 		}
 

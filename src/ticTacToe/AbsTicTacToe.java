@@ -71,45 +71,41 @@ public abstract class AbsTicTacToe {
         System.out.println("---------- START --------");
         this.printField();
         int n = this.config.getNRows();
-        try {
-            if(!this.config.getTypeOfGame()) {
-                while (!this.checkEnd())
-                {
-                    AbsMove move = this.askMove(this.activePlayer);
-                    this.move(move);
-                    this.printField();
-                }
-            } else{
-                while (!this.checkEnd())
-                {
-                    AbsMove move;
-                    if(this.activePlayer == 0) {
-                        move = this.askMove(this.activePlayer);
-                    } else {
-                        //Initialize the IA
-                        IEvalFunction f;
-                        switch (this.config.getEF()){
-                            case 0:
-                            default: f = new SimpleEF();
-                        }
-
-                        IMinimax alg;
-                        switch (this.config.getAlgorithm()){
-                            case 0:
-                            default: alg = new Minimax(
-                                    this.getConfig().getDepth(),
-                                    f);
-                        }
-                        move = alg.computeMove(this);
-                        System.out.println("Move of the AI: "
-                                + move.getX() + " " + move.getY());
-                    }
-                    this.move(move);
-                    this.printField();
-                }
+        if(!this.config.getTypeOfGame()) {
+            while (!this.checkEnd())
+            {
+                AbsMove move = this.askMove(this.activePlayer);
+                this.move(move);
+                this.printField();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else{
+            while (!this.checkEnd())
+            {
+                AbsMove move;
+                if(this.activePlayer == 0) {
+                    move = this.askMove(this.activePlayer);
+                } else {
+                    //Initialize the IA
+                    IEvalFunction f;
+                    switch (this.config.getEF()){
+                        case 0:
+                        default: f = new SimpleEF();
+                    }
+
+                    IMinimax alg;
+                    switch (this.config.getAlgorithm()){
+                        case 0:
+                        default: alg = new Minimax(
+                                this.getConfig().getDepth(),
+                                f);
+                    }
+                    move = alg.computeMove(this);
+                    System.out.println("Move of the AI: "
+                            + move.getX() + " " + move.getY());
+                }
+                this.move(move);
+                this.printField();
+            }
         }
 
         if(this.checkWinner()){
@@ -151,41 +147,19 @@ public abstract class AbsTicTacToe {
      * This method make a move in the field
      * @param player Player number
      * @param move Move
-     * @throws IOException If the params are not correct
      */
-    protected void move(int player, AbsMove move) throws IOException{
+    protected void move(int player, AbsMove move) {
         int row = move.getX();
         int column = move.getY();
-        int n = this.config.getNRows();
-        if(player >= 0 && player < 2) {
-            if (row >= 0 && row < n) {
-                if (column >= 0 && column < n) {
-                    if (this.field[row][column] == BLANKVALUE) {
-                        this.field[row][column] = this.PLAYERSVALUE[player];
-                    } else {
-                        throw new IOException
-                                ("Error, this cell is not correct");
-                    }
-                } else {
-                    throw new IOException
-                            ("Error, the column value is not correct");
-                }
-            } else {
-                throw new IOException("Error, the row value is not correct");
-            }
-        } else{
-            throw new IOException
-                    ("Error, the number of the player is not correct");
-        }
+        this.field[row][column] = this.PLAYERSVALUE[player];
     }
 
     /**
      * This method make a move in the field using the current active player
      * @param move Move
      * @return TRUE if the player win he game
-     * @throws IOException If the params are not correct
      */
-    public boolean move(AbsMove move) throws IOException{
+    public boolean move(AbsMove move){
         this.move(this.activePlayer, move);
         boolean result = this.checkWinner();
         if(!result)
