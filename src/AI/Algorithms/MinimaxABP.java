@@ -20,7 +20,7 @@ final public class MinimaxABP implements IMinimax{
 	IEvalFunction f;
 
 
- 	public Minimax(int depth, IEvalFunction f){
+ 	public MinimaxABP(int depth, IEvalFunction f){
 		this.depth = depth;
 		this.f = f;
 	}
@@ -66,7 +66,7 @@ final public class MinimaxABP implements IMinimax{
 			}
 
 			if (v <= alpha)
-				return v
+				return v;
 			if (v < beta)
 				beta = v;
 		}

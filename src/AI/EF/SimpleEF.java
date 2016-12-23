@@ -12,6 +12,20 @@ public class SimpleEF implements IEvalFunction{
 
     @Override
     public double eval(AbsTicTacToe state) {
-        return AIUtils.SimpleAIAlgorithm(state.getField(),1);
+        char[][] field = state.getField();
+        if(state.checkEnd()){
+            if(state.checkWinner()){
+                if(state.getActivePlayer() == 1) {
+                    return field.length;
+                }else{
+                    return -field.length;
+                }
+            } else{
+                return 0;
+            }
+        } else{
+            double valAI = AIUtils.SimpleAIAlgorithm(field,1);
+            return valAI;
+        }
     }
 }

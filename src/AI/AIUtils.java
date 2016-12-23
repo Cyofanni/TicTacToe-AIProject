@@ -85,7 +85,7 @@ public class AIUtils {
 			if(field[i][n-i-1] == AbsTicTacToe.PLAYERSVALUE[player]){
 				cDiagonal2 ++;
 			} else{
-				if(field[i][i] != AbsTicTacToe.BLANKVALUE) {
+				if(field[i][n-i-1] != AbsTicTacToe.BLANKVALUE) {
 					cDiagonal2 = 0;
 					break;
 				}
