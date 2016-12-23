@@ -6,6 +6,8 @@ import AI.EF.AdvanceEF;
 import AI.EF.IEvalFunction;
 import AI.EF.SimpleEF;
 import config.AbsConfig;
+
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -45,6 +47,10 @@ public abstract class AbsTicTacToe {
      */
     protected int activePlayer;
 
+    /**
+     * The list of the all result
+     */
+    private ArrayList<AbsResult> results = new ArrayList<AbsResult>();
 
     /**
      * Constructor
@@ -108,6 +114,7 @@ public abstract class AbsTicTacToe {
                 this.move(move);
                 this.printField();
             }
+            this.printResult();
         }
 
         if(this.checkWinner()){
@@ -259,7 +266,7 @@ public abstract class AbsTicTacToe {
                     System.out.print("| " + value + " |");
                 }
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -293,6 +300,24 @@ public abstract class AbsTicTacToe {
         } while(this.field[nRow][nColumn] != this.BLANKVALUE);
 
         return new Move(nRow,nColumn);
+    }
+
+    /**
+     * This method stamps all the results to the standard output
+     */
+    public void printResult(){
+        System.out.println("Following the results");
+        for(int i = 0; i < this.results.size(); i++){
+            AbsResult r = this.results.get(i);
+            if(i==0){
+                System.out.format("%s", "PLAY");
+                r.print(true);
+            }else{
+                System.out.format("%-10d", i + 1);
+                r.print(false);
+            }
+            System.out.println();
+        }
     }
 
 
@@ -338,4 +363,12 @@ public abstract class AbsTicTacToe {
      */
     public abstract TicTacToe deepClone();
 
+    /**
+     * This method allows access to the list of the results
+     * @return Results
+     */
+    public ArrayList<AbsResult> getResults() {
+        //TODO: Deep copy?
+        return results;
+    }
 }
