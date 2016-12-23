@@ -6,8 +6,6 @@ import AI.EF.AdvanceEF;
 import AI.EF.IEvalFunction;
 import AI.EF.SimpleEF;
 import config.AbsConfig;
-
-import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 

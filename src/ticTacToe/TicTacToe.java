@@ -23,6 +23,7 @@ public class TicTacToe extends AbsTicTacToe {
         super(config, field, player);
     }
 
+    @Override
     public TicTacToe deepClone(){
         // Coping the field
         int n = this.config.getNRows();

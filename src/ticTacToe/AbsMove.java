@@ -1,4 +1,5 @@
 package ticTacToe;
+
 /**
  * This class represents a move
  *
