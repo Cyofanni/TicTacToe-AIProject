@@ -24,6 +24,19 @@ final public class MinimaxRot implements IMinimax{
 		this.f = f;
 	}
 
+        private transposeMatrix(char [][] matr){
+	            
+
+	}
+
+        private reverseRows(char [][] matr){
+
+	}
+
+	private reverseCols(char [][] matr){
+
+	}
+
 	private double maxValue(TicTacToe state, int depthP) {
 		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
@@ -35,9 +48,9 @@ final public class MinimaxRot implements IMinimax{
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
-			/* 1) Compute 90-degree right rotation 
-		           2) Compute 90-degree left rotation
-			   3) Compute 128-degree rotation
+			/* 1) Compute 90-degree right rotation (transpose + reverse columns)
+		           2) Compute 90-degree left rotation (transpose + reverse rows)
+			   3) Compute 128-degree rotation (reverse rows + reverse columns)
 			   Finally look for a match of this rotations against 
 			   stored states
 			*/
@@ -63,9 +76,9 @@ final public class MinimaxRot implements IMinimax{
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 
-			/* 1) Compute 90-degree right rotation 
-		           2) Compute 90-degree left rotation
-			   3) Compute 128-degree rotation
+			/* 1) Compute 90-degree right rotation (transpose + reverse columns)
+		           2) Compute 90-degree left rotation (transpose + reverse rows)
+			   3) Compute 128-degree rotation (reverse rows + reverse columns)
 			   Finally look for a match of this rotations against 
 			   stored states
 			*/
