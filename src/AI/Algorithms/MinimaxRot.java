@@ -24,17 +24,50 @@ final public class MinimaxRot implements IMinimax{
 		this.f = f;
 	}
 
-        private transposeMatrix(char [][] matr){
-	            
+	/*method for matrix transposition, used to check rotations*/
+        private char[][] transposeMatrix(char [][] matr){
+		int size = matr[1].length;
+	        char[][] transMatrix = new char[size][];
+		 	        
+		for (int i = 0; i < size; i++){
+		    for (int j = 0; j < size; j++){
+			transMatrix[i][j] = matr[j][i];
+		    }
+		}     
 
+		return transMatrix;	
 	}
 
-        private reverseRows(char [][] matr){
+	/*method for reversing matrix' rows, used to check rotations*/
+        private char[][] reverseRows(char [][] matr){
+		int size = matr[1].length;
+		char[][] revMatrix = new char[size][];
+		
+		int countRightOrder = 0;
+		for (int i = size - 1; i >= 0; i--){
+		    for (int j = 0; j < size; j++){
+			revMatrix[countRightOrder][j] = matr[i][j];
+		    }
+		    countRightOrder++;
+		} 	
 
+		return revMatrix;
 	}
 
-	private reverseCols(char [][] matr){
+	/*method for reversing matrix' columns, used to check rotations*/
+	private char[][] reverseCols(char [][] matr){
+		int size = matr[1].length;			
+		char[][] revMatrix = new char[size][];
 
+		int countRightOrder = 0;
+		for (int i = size - 1; i >= 0; i--){
+		    for (int j = 0; j < size; j++){
+			revMatrix[j][countRightOrder] = matr[j][i] ;
+		    }
+		    countRightOrder++;
+		} 
+
+		return revMatrix;
 	}
 
 	private double maxValue(TicTacToe state, int depthP) {
