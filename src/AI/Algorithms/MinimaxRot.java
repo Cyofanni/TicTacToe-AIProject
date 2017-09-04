@@ -19,7 +19,8 @@ final public class MinimaxRot implements IMinimax{
 	IEvalFunction f;              //reference to evaluation function interface
 
 	//maybe a private array (ArrayList of char[][]?) could store the configurations
-	private ArrayList<char[][]> storedStates;
+	//FIXME: right initialization?
+	private ArrayList<char[][]> storedStates = new ArrayList<char[][]>();
 
  	public MinimaxRot(int depth, IEvalFunction f){
 		this.depth = depth;
@@ -112,6 +113,10 @@ final public class MinimaxRot implements IMinimax{
 		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
+
+		/*FIXME: right place?*/
+		storedStates.add(state.getField());
+
 		double v = Double.MIN_VALUE;
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());    //create an array with the legal action from the state
 											  //of the current recursive call
@@ -147,12 +152,18 @@ final public class MinimaxRot implements IMinimax{
 			boolean matchFound = false;
 			for (int j = 0; j < storedStates.size() && matchFound == false; j++){
 				//use private method 'checkFieldEq' to check equality of 2 char[][]
+				if (checkFieldEq(storedStates.get(j), rotated90_r) || checkFieldEq(storedStates.get(j), rotated90_l) || 
+					checkFieldEq(storedStates.get(j), rotated180)){
+					matchFound = true;
+				}
 			}			
 
-
-                        double min = minValue(newState, depthP - 1);
-			if (min > v){
-				v = min;
+			//recursive call only if the field is rotation-indepentendly new
+			if (matchFound == false){
+                        	double min = minValue(newState, depthP - 1);
+				if (min > v){
+				   v = min;
+				}
 			}
 		}
 
@@ -163,6 +174,10 @@ final public class MinimaxRot implements IMinimax{
 		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
+
+		/*FIXME: right place?*/
+		storedStates.add(state.getField());
+
 		double v = Double.MAX_VALUE;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
@@ -178,10 +193,40 @@ final public class MinimaxRot implements IMinimax{
 			   Finally look for a match of this rotations against 
 			   stored states
 			*/
+			char[][] currFieldConf = newState.getField();   //get the field from the new state
+			
+			/***1) Compute 90-degree right rotation (transpose + reverse columns) of 'currFieldConf'***/
+			char[][] rotated90_r = transposeMatrix(currFieldConf);
+			rotated90_r = reverseCols(rotated90_r);
+			/***********************************************************************/						
+						
+			/***1) Compute 90-degree left rotation (transpose + reverse rows) of 'currFieldConf'***/
+			char[][] rotated90_l = transposeMatrix(currFieldConf);
+			rotated90_l = reverseRows(rotated90_l);
+			/***********************************************************************/			
+			
+			/***1) Compute 180-degree rotation (reverse rows + reverse columns) of 'currFieldConf'***/
+			char[][] rotated180 = transposeMatrix(currFieldConf);
+			rotated180 = reverseRows(rotated180);
+			/***********************************************************************/
 
-			double max = maxValue(newState, depthP - 1);
-			if (max < v){
-				v = max;
+			/*look for a match of this rotations against stored states*/
+			boolean matchFound = false;
+			for (int j = 0; j < storedStates.size() && matchFound == false; j++){
+				//use private method 'checkFieldEq' to check equality of 2 char[][]
+				if (checkFieldEq(storedStates.get(j), rotated90_r) || checkFieldEq(storedStates.get(j), rotated90_l) || 
+					checkFieldEq(storedStates.get(j), rotated180)){
+					matchFound = true;
+				}
+			}
+
+			//recursive call only if the field is rotation-indepentendly new
+			if (matchFound == false){
+				double max = maxValue(newState, depthP - 1);
+			
+				if (max < v){
+				   v = max;
+				}
 			}
 		}
 
@@ -193,7 +238,10 @@ final public class MinimaxRot implements IMinimax{
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
 		double max = Integer.MIN_VALUE;
 		AbsMove bestMove = null;
-		
+
+		/*FIXME: right place?*/
+		storedStates.add(state.getField());		
+
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
