@@ -30,7 +30,12 @@ final public class MinimaxRot implements IMinimax{
         private char[][] transposeMatrix(char [][] matr){
 		int size = matr[0].length;
 	        char[][] transMatrix = new char[size][];
-		 	        
+		
+		/*allocate memory for each row*/
+		for (int i = 0; i < size; i++){
+			transMatrix[i] = new char[size];
+		}
+  
 		for (int i = 0; i < size; i++){
 		    for (int j = 0; j < size; j++){
 			transMatrix[i][j] = matr[j][i];
@@ -45,6 +50,11 @@ final public class MinimaxRot implements IMinimax{
 		int size = matr[0].length;
 		char[][] revMatrix = new char[size][];
 		
+		/*allocate memory for each row*/
+		for (int i = 0; i < size; i++){
+			revMatrix[i] = new char[size];
+		}
+
 		int countRightOrder = 0;
 		for (int i = size - 1; i >= 0; i--){
 		    for (int j = 0; j < size; j++){
@@ -60,6 +70,11 @@ final public class MinimaxRot implements IMinimax{
 	private char[][] reverseCols(char [][] matr){
 		int size = matr[0].length;			
 		char[][] revMatrix = new char[size][];
+
+		/*allocate memory for each row*/
+		for (int i = 0; i < size; i++){
+			revMatrix[i] = new char[size];
+		}
 
 		int countRightOrder = 0;
 		for (int i = size - 1; i >= 0; i--){
