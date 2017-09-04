@@ -1,7 +1,6 @@
 package ticTacToe;
 
-import AI.Algorithms.IMinimax;
-import AI.Algorithms.Minimax;
+import AI.Algorithms.*;
 import AI.EF.AdvanceEF;
 import AI.EF.IEvalFunction;
 import AI.EF.SimpleEF;
@@ -84,29 +83,42 @@ public abstract class AbsTicTacToe {
                 this.printField();
             }
         } else{
+            //Initialize the IA
+            IEvalFunction f;
+            switch (this.config.getEF()){
+                case 1:
+                    f = new AdvanceEF();
+                    break;
+                case 0:
+                default: f = new SimpleEF();
+            }
+
+            //Initialize the algorithm
+            IMinimax alg;
+            switch (this.config.getAlgorithm()){
+                case 0: {alg = new Minimax(
+                        this.getConfig().getDepth(), f);}
+                break;
+                case 1: {alg = new MinimaxRot(
+                        this.getConfig().getDepth(),f);}
+                break;
+                case 2: {alg = new MinimaxABP(
+                        this.getConfig().getDepth(),f);}
+                break;
+                case 3: {alg = new MinimaxABP(
+                        this.getConfig().getDepth(),f);}
+                break; //TODO: da finire con la rotazione
+                default: alg = new Minimax(
+                        this.getConfig().getDepth(),
+                        f);
+            }
+
             while (!this.checkEnd())
             {
                 AbsMove move;
                 if(this.activePlayer == 0) {
                     move = this.askMove(this.activePlayer);
                 } else {
-                    //Initialize the IA
-                    IEvalFunction f;
-                    switch (this.config.getEF()){
-                        case 1:
-                            f = new AdvanceEF();
-                            break;
-                        case 0:
-                        default: f = new SimpleEF();
-                    }
-
-                    IMinimax alg;
-                    switch (this.config.getAlgorithm()){
-                        case 0:
-                        default: alg = new Minimax(
-                                this.getConfig().getDepth(),
-                                f);
-                    }
                     move = alg.computeMove(this);
                     System.out.println("Move of the AI: "
                             + move.getX() + " " + move.getY());
@@ -120,7 +132,7 @@ public abstract class AbsTicTacToe {
         if(this.checkWinner()){
             System.out.println("The winner is: Player" + this.activePlayer);
         } else {
-            System.out.println("The winner is: Parity");
+            System.out.println("The winner is: Draw");
         }
         System.out.println("---------- END ----------");
 
