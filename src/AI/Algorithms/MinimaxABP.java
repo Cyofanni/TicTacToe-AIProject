@@ -84,7 +84,7 @@ final public class MinimaxABP implements IMinimax{
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
-			double min = minValue(newState, Double.MIN_VALUE, Double.MAX_VALUE, depth);
+			double min = minValue(newState, Double.MIN_VALUE, Double.MAX_VALUE, depth - 1);
 			if (min > v){
 				v = min;
 				bestMove = actions.get(i);

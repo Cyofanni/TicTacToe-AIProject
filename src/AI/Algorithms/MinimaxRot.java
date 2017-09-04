@@ -197,7 +197,7 @@ final public class MinimaxRot implements IMinimax{
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
-			double minValue = minValue(newState, depth);
+			double minValue = minValue(newState, depth - 1);
 			if (minValue > max){
 				max = minValue;
 				bestMove = actions.get(i);
