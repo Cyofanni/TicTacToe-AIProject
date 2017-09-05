@@ -2,10 +2,8 @@ package AI.Algorithms;
 
 import AI.AIUtils;
 import AI.EF.IEvalFunction;
-import ticTacToe.AbsTicTacToe;
 import ticTacToe.TicTacToe;
 import ticTacToe.AbsMove;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -15,19 +13,16 @@ import java.util.ArrayList;
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
-final public class MinimaxABP implements IMinimax{
-	int depth;
-	IEvalFunction f;
-
+final public class MinimaxABP extends AbsMinimaxABP{
 
  	public MinimaxABP(int depth, IEvalFunction f){
-		this.depth = depth;
-		this.f = f;
+		super(depth,f);
 	}
 
-	private double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
+	@Override
+	protected double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
 		if (state.checkEnd() || depthP == 0)
-			return f.eval(state);
+			return this.getF().eval(state);
 
 		double v = Double.NEGATIVE_INFINITY;
 		ArrayList<AbsMove> actions = AIUtils.
@@ -49,9 +44,10 @@ final public class MinimaxABP implements IMinimax{
 		return v;
 	}
 
-	private double minValue(TicTacToe state, double alpha, double beta, int depthP) {
+	@Override
+	protected double minValue(TicTacToe state, double alpha, double beta, int depthP) {
 		if (state.checkEnd() || depthP == 0)
-			return f.eval(state);
+			return this.getF().eval(state);
 
 		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.
@@ -72,25 +68,5 @@ final public class MinimaxABP implements IMinimax{
 		}
 
 		return v;
-	}
-
-	@Override
-	public AbsMove computeMove(AbsTicTacToe state){
-		ArrayList<AbsMove> actions = AIUtils.
-				computeActions(state.getField());
-		double v = Double.NEGATIVE_INFINITY;
-		AbsMove bestMove = null;
-		
-		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
-			newState.move(actions.get(i));
-			double min = minValue(newState, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depth - 1);
-			if (min > v){
-				v = min;
-				bestMove = actions.get(i);
-			}
-		}
-
-		return bestMove;
 	}
 }

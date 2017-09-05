@@ -14,40 +14,35 @@ import java.util.ArrayList;
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
 
-final public class MinimaxRot implements IMinimax{
-	int depth;
-	IEvalFunction f;              //reference to evaluation function interface
+final public class MinimaxRot extends AbsMinimax{
 
 	//a private array (ArrayList of char[][]) could store the configurations
-	//right initialization?
 	private ArrayList<char[][]> storedStates = new ArrayList<char[][]>();
 
  	public MinimaxRot(int depth, IEvalFunction f){
-		this.depth = depth;
-		this.f = f;
+		super(depth,f);
 	}
 
 	/*method for matrix transposition, used to check rotations*/
-        private char[][] transposeMatrix(char [][] matr){
+	private char[][] transposeMatrix(char [][] matr){
 		int size = matr[0].length;
-	        char[][] transMatrix = new char[size][];
-		
+			char[][] transMatrix = new char[size][];
+
 		/*allocate memory for each row*/
 		for (int i = 0; i < size; i++){
 			transMatrix[i] = new char[size];
 		}
-  
-		for (int i = 0; i < size; i++){
-		    for (int j = 0; j < size; j++){
-			transMatrix[i][j] = matr[j][i];
-		    }
-		}     
 
-		return transMatrix;	
+		for (int i = 0; i < size; i++){
+			for (int j = 0; j < size; j++){
+			transMatrix[i][j] = matr[j][i];
+			}
+		}
+			return transMatrix;
 	}
 
 	/*method for reversing matrix' rows, used to check rotations*/
-        private char[][] reverseRows(char [][] matr){
+	private char[][] reverseRows(char [][] matr){
 		int size = matr[0].length;
 		char[][] revMatrix = new char[size][];
 		
@@ -62,8 +57,7 @@ final public class MinimaxRot implements IMinimax{
 			revMatrix[countRightOrder][j] = matr[i][j];
 		    }
 		    countRightOrder++;
-		} 	
-
+		}
 		return revMatrix;
 	}
 
@@ -83,8 +77,7 @@ final public class MinimaxRot implements IMinimax{
 			revMatrix[j][countRightOrder] = matr[j][i] ;
 		    }
 		    countRightOrder++;
-		} 
-
+		}
 		return revMatrix;
 	}
 
@@ -109,9 +102,10 @@ final public class MinimaxRot implements IMinimax{
 		return ret;
 	}
 
-	private double maxValue(TicTacToe state, int depthP) {
+	@Override
+	protected double maxValue(TicTacToe state, int depthP) {
 		if (state.checkEnd() || depthP == 0){
-			return f.eval(state);
+			return this.getF().eval(state);
 		}
 
 		/*right place?*/
@@ -168,9 +162,10 @@ final public class MinimaxRot implements IMinimax{
 		return v;
 	}
 
-	private double minValue(TicTacToe state, int depthP) {
+	@Override
+	protected double minValue(TicTacToe state, int depthP) {
 		if (state.checkEnd() || depthP == 0){
-			return f.eval(state);
+			return this.getF().eval(state);
 		}
 
 		/*right place?*/
@@ -227,24 +222,5 @@ final public class MinimaxRot implements IMinimax{
 		}
 
 		return v;
-	}
-
-	@Override
-	public AbsMove computeMove(AbsTicTacToe state){
-		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
-		double max = Double.NEGATIVE_INFINITY;
-		AbsMove bestMove = null;
-
-		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
-			newState.move(actions.get(i));
-			double minValue = minValue(newState, depth - 1);
-			if (minValue > max){
-				max = minValue;
-				bestMove = actions.get(i);
-			}
-		}
-
-		return bestMove;
 	}
 }

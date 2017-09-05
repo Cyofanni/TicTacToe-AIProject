@@ -56,9 +56,9 @@ public class AdvanceEF  implements IEvalFunction{
         if(state.checkEnd()){
             if(state.checkWinner()){
                 if(state.getActivePlayer() == 1) {
-                    return length * 10 + result;
+                    return length * 4 + result; // this is sufficient with 3length + 3 + result
                 }else{
-                    return -(length * 10) + result;
+                    return -(length * 4) + result;
                 }
             } else{
                 return 0;
@@ -70,6 +70,7 @@ public class AdvanceEF  implements IEvalFunction{
             double valPlayer = AIUtils.SimpleAIAlgorithm(field,0);
 
             //Return the result
+            //return result + valAI - (valPlayer / (length - valPlayer));
             return result + valAI - valPlayer ;
         }
 

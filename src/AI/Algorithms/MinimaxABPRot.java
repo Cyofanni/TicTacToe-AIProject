@@ -15,9 +15,7 @@ import java.util.ArrayList;
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
-final public class MinimaxABPRot implements IMinimax{
-	int depth;
-	IEvalFunction f;
+final public class MinimaxABPRot extends AbsMinimaxABP{
 
 	//a private array (ArrayList of char[][]) could store the configurations
 	//right initialization?
@@ -25,8 +23,7 @@ final public class MinimaxABPRot implements IMinimax{
 
 
  	public MinimaxABPRot(int depth, IEvalFunction f){
-		this.depth = depth;
-		this.f = f;
+		super(depth,f);
 	}
 
 	/*method for matrix transposition, used to check rotations*/
@@ -111,10 +108,10 @@ final public class MinimaxABPRot implements IMinimax{
 		return ret;
 	}
 
-
-	private double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
+	@Override
+	protected double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
 		if (state.checkEnd() || depthP == 0)
-			return f.eval(state);
+			return this.getF().eval(state);
 
 		/*right place?*/
 		storedStates.add(state.getField());
@@ -173,9 +170,10 @@ final public class MinimaxABPRot implements IMinimax{
 		return v;
 	}
 
-	private double minValue(TicTacToe state, double alpha, double beta, int depthP) {
+	@Override
+	protected double minValue(TicTacToe state, double alpha, double beta, int depthP) {
 		if (state.checkEnd() || depthP == 0)
-			return f.eval(state);
+			return this.getF().eval(state);
 
 		/*right place?*/
 		storedStates.add(state.getField());
@@ -233,25 +231,5 @@ final public class MinimaxABPRot implements IMinimax{
 		}
 
 		return v;
-	}
-
-	@Override
-	public AbsMove computeMove(AbsTicTacToe state){
-		ArrayList<AbsMove> actions = AIUtils.
-				computeActions(state.getField());
-		double v = Double.NEGATIVE_INFINITY;
-		AbsMove bestMove = null;
-		
-		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
-			newState.move(actions.get(i));
-			double min = minValue(newState, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depth - 1);
-			if (min > v){
-				v = min;
-				bestMove = actions.get(i);
-			}
-		}
-
-		return bestMove;
 	}
 }

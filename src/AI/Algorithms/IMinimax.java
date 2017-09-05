@@ -9,6 +9,6 @@ import ticTacToe.AbsTicTacToe;
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
 public interface IMinimax {
-	public AbsMove computeMove(AbsTicTacToe state);
+	AbsMove computeMove(AbsTicTacToe state);
 }
 
