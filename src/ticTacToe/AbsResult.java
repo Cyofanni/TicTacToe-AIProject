@@ -1,5 +1,7 @@
 package ticTacToe;
 
+import java.util.Timer;
+
 /**
  * This class represents the result object
  *
@@ -14,7 +16,12 @@ public abstract class AbsResult {
     /**
      * Time
      */
-    private int time = 0;
+    private long startTime = 0;
+
+    /**
+     * Time
+     */
+    private long endTime = 0;
 
     /**
      * Level of the node nearest the root
@@ -30,16 +37,23 @@ public abstract class AbsResult {
      * Constructor
      *
      * @param nNodes Number of nodes
-     * @param time Time
+     * @param startTime Time
+     * @param endTime Time
      * @param level Level of the node nearest the root
      * @param bestScore Best score
      */
-    public AbsResult(int nNodes, int time, int level, double bestScore){
+    public AbsResult(int nNodes, long startTime, long endTime , int level, double bestScore){
         this.nNodes = nNodes;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.level = level;
         this.bestScore = bestScore;
     }
+
+    /**
+     * Constructor
+     */
+    public AbsResult(){}
 
     /* -------------------------------------------------------------------- */
     /* ------------------------------- METHODS ---------------------------- */
@@ -77,10 +91,10 @@ public abstract class AbsResult {
 
     /**
      * This method allows access to the time
-     * @return Time
+     * @return Elapsed Time
      */
-    public int getTime(){
-        return this.time;
+    public long getTime(){
+        return this.endTime - this.startTime;
     }
 
     /**
@@ -97,5 +111,58 @@ public abstract class AbsResult {
      */
     public int getLevel() {
         return level;
+    }
+
+
+    /* -------------------------------------------------------------------- */
+    /* ------------------------------- SETTERS ---------------------------- */
+    /* -------------------------------------------------------------------- */
+
+    /**
+     * Add 1 to the variable nNodes
+     */
+    public void addNode(){
+        nNodes++;
+    }
+
+    /**
+     * Add n to the variable nNodes
+     */
+    public void addNode(int n){
+        nNodes = nNodes + n;
+    }
+
+    /**
+     * Start the timer
+     */
+    public void startTime(){
+        startTime = System.nanoTime();
+    }
+
+    /**
+     * End the timer
+     */
+    public void stopTime(){
+        endTime = System.nanoTime();
+    }
+
+    /**
+     * Set the nearest level to the root found during the search
+     * @param i Number representing the distance from the root (starting by 0)
+     */
+    public void setNearestLevel(int i){
+        if(i < level){
+            level = i;
+        }
+    }
+
+    /**
+     * Set the best score found during the search
+     * @param score Score found during the search
+     */
+    public void setBestScore(int score){
+        if(score > bestScore){
+            bestScore = score;
+        }
     }
 }
