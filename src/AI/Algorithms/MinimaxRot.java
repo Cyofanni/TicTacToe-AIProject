@@ -117,7 +117,7 @@ final public class MinimaxRot implements IMinimax{
 		/*right place?*/
 		storedStates.add(state.getField());
 
-		double v = Double.MIN_VALUE;
+		double v = Double.NEGATIVE_INFINITY;
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());    //create an array with the legal action from the state
 											  //of the current recursive call	
 		for (int i = 0; i < actions.size(); i++){
@@ -176,7 +176,7 @@ final public class MinimaxRot implements IMinimax{
 		/*right place?*/
 		storedStates.add(state.getField());
 
-		double v = Double.MAX_VALUE;
+		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
@@ -232,7 +232,7 @@ final public class MinimaxRot implements IMinimax{
 	@Override
 	public AbsMove computeMove(AbsTicTacToe state){
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
-		double max = Integer.MIN_VALUE;
+		double max = Double.NEGATIVE_INFINITY;
 		AbsMove bestMove = null;
 
 		for (int i = 0; i < actions.size(); i++){

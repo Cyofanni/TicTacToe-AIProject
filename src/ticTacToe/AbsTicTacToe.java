@@ -97,7 +97,7 @@ public abstract class AbsTicTacToe {
             IMinimax alg;
             switch (this.config.getAlgorithm()){
                 case 0: {alg = new Minimax(
-                        this.getConfig().getDepth(), f);}
+                        this.getConfig().getDepth(),f);}
                 break;
                 case 1: {alg = new MinimaxRot(
                         this.getConfig().getDepth(),f);}
@@ -105,9 +105,9 @@ public abstract class AbsTicTacToe {
                 case 2: {alg = new MinimaxABP(
                         this.getConfig().getDepth(),f);}
                 break;
-                case 3: {alg = new MinimaxABP(
+                case 3: {alg = new MinimaxABPRot(
                         this.getConfig().getDepth(),f);}
-                break; //TODO: da finire con la rotazione
+                break;
                 default: alg = new Minimax(
                         this.getConfig().getDepth(),
                         f);
@@ -342,7 +342,6 @@ public abstract class AbsTicTacToe {
      * @return The Config object
      */
     public AbsConfig getConfig(){
-        //TODO: Deep copy?
         return this.config;
     }
 
@@ -380,7 +379,6 @@ public abstract class AbsTicTacToe {
      * @return Results
      */
     public ArrayList<AbsResult> getResults() {
-        //TODO: Deep copy?
         return results;
     }
 }

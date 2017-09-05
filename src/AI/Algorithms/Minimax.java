@@ -27,13 +27,13 @@ final public class Minimax implements IMinimax{
 		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
-		double v = Double.MIN_VALUE;
+		double v = Double.NEGATIVE_INFINITY;
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
-            		double min = minValue(newState, depthP - 1);
+			double min = minValue(newState, depthP - 1);
 			if (min > v){
 				v = min;
 			}
@@ -46,7 +46,7 @@ final public class Minimax implements IMinimax{
 		if (state.checkEnd() || depthP == 0){
 			return f.eval(state);
 		}
-		double v = Double.MAX_VALUE;
+		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
@@ -64,7 +64,7 @@ final public class Minimax implements IMinimax{
 	@Override
 	public AbsMove computeMove(AbsTicTacToe state){
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
-		double max = Double.MIN_VALUE;
+		double max = Double.NEGATIVE_INFINITY;
 		AbsMove bestMove = null;
 		
 		for (int i = 0; i < actions.size(); i++){
