@@ -15,12 +15,12 @@ import java.util.ArrayList;
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
-final public class MinimaxABP implements IMinimax{
+final public class MinimaxABPRot implements IMinimax{
 	int depth;
 	IEvalFunction f;
 
 
- 	public MinimaxABP(int depth, IEvalFunction f){
+ 	public MinimaxABPRot(int depth, IEvalFunction f){
 		this.depth = depth;
 		this.f = f;
 	}
