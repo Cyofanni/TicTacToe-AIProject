@@ -18,8 +18,8 @@ final public class MinimaxRot implements IMinimax{
 	int depth;
 	IEvalFunction f;              //reference to evaluation function interface
 
-	//maybe a private array (ArrayList of char[][]?) could store the configurations
-	//FIXME: right initialization?
+	//a private array (ArrayList of char[][]) could store the configurations
+	//right initialization?
 	private ArrayList<char[][]> storedStates = new ArrayList<char[][]>();
 
  	public MinimaxRot(int depth, IEvalFunction f){
@@ -114,14 +114,12 @@ final public class MinimaxRot implements IMinimax{
 			return f.eval(state);
 		}
 
-		/*FIXME: right place?*/
+		/*right place?*/
 		storedStates.add(state.getField());
 
 		double v = Double.MIN_VALUE;
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());    //create an array with the legal action from the state
-											  //of the current recursive call
-		//TODO: first we have to store old field configurations		
-		//TODO: add checks for redundant field configurations (rotations)
+											  //of the current recursive call	
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
@@ -175,14 +173,12 @@ final public class MinimaxRot implements IMinimax{
 			return f.eval(state);
 		}
 
-		/*FIXME: right place?*/
+		/*right place?*/
 		storedStates.add(state.getField());
 
 		double v = Double.MAX_VALUE;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
-		//TODO: first we have to store old field configurations		
-		//TODO: add checks for redundant field configurations (rotations)
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
