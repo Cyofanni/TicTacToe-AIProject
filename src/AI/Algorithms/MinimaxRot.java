@@ -144,8 +144,8 @@ final public class MinimaxRot implements IMinimax{
 			/***********************************************************************/			
 			
 			/***1) Compute 180-degree rotation (reverse rows + reverse columns) of 'currFieldConf'***/
-			char[][] rotated180 = transposeMatrix(currFieldConf);
-			rotated180 = reverseRows(rotated180);
+			char[][] rotated180 = reverseRows(currFieldConf);
+			rotated180 = reverseCols(rotated180);
 			/***********************************************************************/
 
 			/*look for a match of this rotations against stored states*/
@@ -206,8 +206,8 @@ final public class MinimaxRot implements IMinimax{
 			/***********************************************************************/			
 			
 			/***1) Compute 180-degree rotation (reverse rows + reverse columns) of 'currFieldConf'***/
-			char[][] rotated180 = transposeMatrix(currFieldConf);
-			rotated180 = reverseRows(rotated180);
+			char[][] rotated180 = reverseRows(currFieldConf);
+			rotated180 = reverseCols(rotated180);
 			/***********************************************************************/
 
 			/*look for a match of this rotations against stored states*/
@@ -238,9 +238,6 @@ final public class MinimaxRot implements IMinimax{
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
 		double max = Integer.MIN_VALUE;
 		AbsMove bestMove = null;
-
-		/*FIXME: right place?*/
-		storedStates.add(state.getField());		
 
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
