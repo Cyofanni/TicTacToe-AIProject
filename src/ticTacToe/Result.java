@@ -7,15 +7,22 @@ package ticTacToe;
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
 public class Result extends AbsResult {
+
     /**
      * Constructor
      *
-     * @param nNodes    Number of nodes
-     * @param time      Time
-     * @param level     Level of the node nearest the root
+     * @param nNodes Number of nodes
+     * @param startTime Time
+     * @param endTime Time
+     * @param level Level of the node nearest the root
      * @param bestScore Best score
      */
-    public Result(int nNodes, int time, int level, double bestScore) {
-        super(nNodes, time, level, bestScore);
+    public Result(int nNodes, long startTime, long endTime , int level, double bestScore){
+        super(nNodes, startTime, endTime, level, bestScore);
     }
+
+    /**
+     * Constructor
+     */
+    public Result(){}
 }

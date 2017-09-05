@@ -142,7 +142,7 @@ public abstract class AbsResult {
     /**
      * End the timer
      */
-    public void stopTime(){
+    public void endTime(){
         endTime = System.nanoTime();
     }
 

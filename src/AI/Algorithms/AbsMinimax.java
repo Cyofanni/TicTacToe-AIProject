@@ -28,6 +28,10 @@ public abstract class AbsMinimax extends AbsMinimaxStructure {
 
     @Override
     public AbsMove computeMove(AbsTicTacToe state){
+        //Start the time and sum 1 to node because of root
+        this.res.startTime();
+        this.res.addNode();
+
         ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
         double max = Double.NEGATIVE_INFINITY;
         AbsMove bestMove = null;
@@ -41,6 +45,9 @@ public abstract class AbsMinimax extends AbsMinimaxStructure {
                 bestMove = actions.get(i);
             }
         }
+
+        //End time and return the best move
+        this.res.startTime();
         return bestMove;
 
     }
