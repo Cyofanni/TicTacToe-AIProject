@@ -1,4 +1,4 @@
-package AI.Algorithms;
+package AI.algorithms;
 
 import ticTacToe.AbsMove;
 import ticTacToe.AbsTicTacToe;

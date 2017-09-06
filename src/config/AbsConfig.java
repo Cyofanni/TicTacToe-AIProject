@@ -55,6 +55,40 @@ public class AbsConfig  {
 
 
     /**
+     * Constructor
+     */
+    public AbsConfig(){}
+
+    /**
+     * Constructor
+     * @param firstPlayer
+     * @param nRows
+     * @param nLockedCells
+     */
+    public AbsConfig(int firstPlayer, int nRows, int nLockedCells){
+        this.firstPlayer = firstPlayer;
+        this.nRows = nRows;
+        this.nLockedCells = nLockedCells;
+    }
+
+    /**
+     * Constructor
+     * @param firstPlayer
+     * @param nRows
+     * @param nLockedCells
+     * @param algorithm
+     * @param EF
+     */
+    public AbsConfig(int firstPlayer, int nRows, int nLockedCells, int algorithm, int EF, int depth){
+        this(firstPlayer,nRows,nLockedCells);
+        this.algorithm = algorithm;
+        this.EF = EF;
+        this.depth = depth;
+        this.againstPC = true;
+    }
+
+
+    /**
      * This method have the logic control of the initialization
      */
     public void startInitialConfig() {

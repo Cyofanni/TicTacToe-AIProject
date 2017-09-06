@@ -1,29 +1,30 @@
-package AI.Algorithms;
+package AI.algorithms;
 
 import AI.AIUtils;
 import AI.EF.IEvalFunction;
 import AI.MatrixOperations;
-import ticTacToe.AbsTicTacToe;
 import ticTacToe.TicTacToe;
 import ticTacToe.AbsMove;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
 /**
  * This class implements the {@link IMinimax IMinimax} algorithm
- * with alpha beta pruning
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
-final public class MinimaxABPRot extends AbsMinimaxABP{
 
- 	public MinimaxABPRot(int depth, IEvalFunction f){
+final public class MinimaxRot extends AbsMinimax{
+
+	//Create the object used to save the fields
+	MatrixOperations mop = new MatrixOperations();
+
+ 	public MinimaxRot(int depth, IEvalFunction f){
 		super(depth,f);
 	}
 
 	@Override
-	protected double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
+	protected double maxValue(TicTacToe state, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -37,10 +38,9 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 			return fvalue;
 		}
 
-		MatrixOperations mop = new MatrixOperations();
 		mop.add(state.getField());
 		double v = Double.NEGATIVE_INFINITY;
-		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
+		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());    //create an array with the legal action from the state
 
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
@@ -48,15 +48,12 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 			char[][] currFieldConf = newState.getField();
 			boolean matchFound = mop.checkExistence(currFieldConf);
 
+			//recursive call only if the field is rotation-independently new
 			if (matchFound == false){
-            			double min = minValue(newState,alpha, beta, depthP - 1);
-				if (min > v)
-					v = min;
-
-				if (v >= beta)
-					return v;
-				if (v > alpha)
-					alpha = v;
+                        	double min = minValue(newState, depthP - 1);
+				if (min > v){
+				   v = min;
+				}
 			}
 		}
 
@@ -64,7 +61,7 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 	}
 
 	@Override
-	protected double minValue(TicTacToe state, double alpha, double beta, int depthP) {
+	protected double minValue(TicTacToe state, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -78,7 +75,6 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 			return fvalue;
 		}
 
-		MatrixOperations mop = new MatrixOperations();
 		mop.add(state.getField());
 		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
@@ -86,20 +82,16 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 		for (int i = 0; i < actions.size(); i++){
 			TicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
-
-			char[][] currFieldConf = newState.getField();
+			char[][] currFieldConf = newState.getField();   //get the field from the new state
 			boolean matchFound = mop.checkExistence(currFieldConf);
 
+			//recursive call only if the field is rotation-independently new
 			if (matchFound == false){
-				double max = maxValue(newState, alpha, beta, depthP - 1);
+				double max = maxValue(newState, depthP - 1);
+			
 				if (max < v){
-					v = max;
-				}	
-
-				if (v <= alpha)
-					return v;
-				if (v < beta)
-					beta = v;
+				   v = max;
+				}
 			}
 		}
 

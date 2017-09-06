@@ -1,6 +1,6 @@
 package ticTacToe;
 
-import AI.Algorithms.*;
+import AI.algorithms.*;
 import AI.EF.AdvanceEF;
 import AI.EF.IEvalFunction;
 import AI.EF.SimpleEF;
@@ -93,25 +93,6 @@ public abstract class AbsTicTacToe {
                 default: f = new SimpleEF();
             }
 
-            //Initialize the algorithm
-            AbsMinimaxStructure alg;
-            switch (this.config.getAlgorithm()){
-                case 0: {alg = new Minimax(
-                        this.getConfig().getDepth(),f);}
-                break;
-                case 1: {alg = new MinimaxRot(
-                        this.getConfig().getDepth(),f);}
-                break;
-                case 2: {alg = new MinimaxABP(
-                        this.getConfig().getDepth(),f);}
-                break;
-                case 3: {alg = new MinimaxABPRot(
-                        this.getConfig().getDepth(),f);}
-                break;
-                default: alg = new Minimax(
-                        this.getConfig().getDepth(),
-                        f);
-            }
 
             while (!this.checkEnd())
             {
@@ -119,6 +100,28 @@ public abstract class AbsTicTacToe {
                 if(this.activePlayer == 0) {
                     move = this.askMove(this.activePlayer);
                 } else {
+                    //Initialize the algorithm
+                    //N.B. Inside the while because the objects MatrixOperator and Results in Minimax
+                    //need to be created every time.
+                    AbsMinimaxStructure alg;
+                    switch (this.config.getAlgorithm()){
+                        case 0: {alg = new Minimax(
+                                this.getConfig().getDepth(),f);}
+                        break;
+                        case 1: {alg = new MinimaxRot(
+                                this.getConfig().getDepth(),f);}
+                        break;
+                        case 2: {alg = new MinimaxABP(
+                                this.getConfig().getDepth(),f);}
+                        break;
+                        case 3: {alg = new MinimaxABPRot(
+                                this.getConfig().getDepth(),f);}
+                        break;
+                        default: alg = new Minimax(
+                                this.getConfig().getDepth(),
+                                f);
+                    }
+
                     move = alg.computeMove(this);
                     results.add(alg.getResult());
                     System.out.println("Move of the AI: "
