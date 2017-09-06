@@ -5,6 +5,7 @@ import AI.AIUtils;
 import AI.EF.IEvalFunction;
 import ticTacToe.AbsMove;
 import ticTacToe.AbsTicTacToe;
+import ticTacToe.Result;
 import ticTacToe.TicTacToe;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public abstract class AbsMinimaxABP extends AbsMinimaxStructure {
     @Override
     public AbsMove computeMove(AbsTicTacToe state){
         //Start the time and sum 1 to node because of root
+        this.res =  new Result();
         this.res.startTime();
         this.res.addNode();
 

@@ -94,7 +94,7 @@ public abstract class AbsTicTacToe {
             }
 
             //Initialize the algorithm
-            IMinimax alg;
+            AbsMinimaxStructure alg;
             switch (this.config.getAlgorithm()){
                 case 0: {alg = new Minimax(
                         this.getConfig().getDepth(),f);}
@@ -120,6 +120,7 @@ public abstract class AbsTicTacToe {
                     move = this.askMove(this.activePlayer);
                 } else {
                     move = alg.computeMove(this);
+                    results.add(alg.getResult());
                     System.out.println("Move of the AI: "
                             + move.getX() + " " + move.getY());
                 }
@@ -322,12 +323,11 @@ public abstract class AbsTicTacToe {
         for(int i = 0; i < this.results.size(); i++){
             AbsResult r = this.results.get(i);
             if(i==0){
-                System.out.format("%s", "PLAY");
+                System.out.format("%-15s", "PLAY");
                 r.print(true);
-            }else{
-                System.out.format("%-10d", i + 1);
-                r.print(false);
             }
+            System.out.format("%-15d", i + 1);
+            r.print(false);
             System.out.println();
         }
     }

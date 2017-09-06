@@ -1,6 +1,5 @@
 package ticTacToe;
 
-import java.util.Timer;
 
 /**
  * This class represents the result object
@@ -26,12 +25,12 @@ public abstract class AbsResult {
     /**
      * Level of the node nearest the root
      */
-    private int level  = 0;
+    private int level  = Integer.MAX_VALUE;
 
     /**
      * Best score
      */
-    private double bestScore = 0;
+    private double bestScore = Integer.MIN_VALUE;
 
     /**
      * Constructor
@@ -65,16 +64,17 @@ public abstract class AbsResult {
      */
     public void print(boolean head){
         if(head){
-            System.out.format("%s", "NODES");
-            System.out.format("%s", "TIME");
-            System.out.format("%s", "BEST SCORE");
-            System.out.format("%s", "LEVEL");
+            System.out.format("%-15s", "NODES");
+            System.out.format("%-15s", "TIME");
+            System.out.format("%-15s", "BEST SCORE");
+            System.out.format("%-15s", "LEVEL");
             System.out.println();
+        } else {
+            System.out.format("%-15d", this.getnNodes());
+            System.out.format("%-15d", this.getTime());
+            System.out.format("%-15f", this.getBestScore());
+            System.out.format("%-15d", this.getLevel());
         }
-        System.out.format("%-10d", this.getnNodes());
-        System.out.format("%-10d", this.getTime());
-        System.out.format("%-10f", this.getBestScore());
-        System.out.format("%-10d", this.getLevel());
     }
 
     /* -------------------------------------------------------------------- */
@@ -91,10 +91,11 @@ public abstract class AbsResult {
 
     /**
      * This method allows access to the time
-     * @return Elapsed Time
+     * @return Elapsed Time in second
      */
     public long getTime(){
-        return this.endTime - this.startTime;
+        long elapsed = this.endTime - this.startTime;
+        return elapsed;
     }
 
     /**
@@ -160,7 +161,7 @@ public abstract class AbsResult {
      * Set the best score found during the search
      * @param score Score found during the search
      */
-    public void setBestScore(int score){
+    public void setBestScore(double score){
         if(score > bestScore){
             bestScore = score;
         }

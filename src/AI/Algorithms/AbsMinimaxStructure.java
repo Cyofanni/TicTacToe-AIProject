@@ -21,7 +21,6 @@ public abstract class AbsMinimaxStructure implements IMinimax {
     public AbsMinimaxStructure(int depth, IEvalFunction f){
         this.depth = depth;
         this.f = f;
-        this.res =  new Result();
     }
 
     //-----------------------------------------------------------------

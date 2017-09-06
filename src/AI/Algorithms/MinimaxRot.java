@@ -27,11 +27,17 @@ final public class MinimaxRot extends AbsMinimax{
 
 	@Override
 	protected double maxValue(TicTacToe state, int depthP) {
-		//Count the new node
+		//Statistics: Count the new node
 		this.res.addNode();
 
+		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
-			return this.getF().eval(state);
+			double fvalue = this.getF().eval(state);
+
+			//Statistics: Set best score and nearest level
+			res.setBestScore(fvalue);
+			res.setNearestLevel(this.getDepth() - depthP -1);
+			return fvalue;
 		}
 
 		MatrixOperations mop = new MatrixOperations();
@@ -59,11 +65,17 @@ final public class MinimaxRot extends AbsMinimax{
 
 	@Override
 	protected double minValue(TicTacToe state, int depthP) {
-		//Count the new node
+		//Statistics: Count the new node
 		this.res.addNode();
 
+		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
-			return this.getF().eval(state);
+			double fvalue = this.getF().eval(state);
+
+			//Statistics: Set best score and nearest level
+			res.setBestScore(fvalue);
+			res.setNearestLevel(this.getDepth() - depthP -1);
+			return fvalue;
 		}
 
 		MatrixOperations mop = new MatrixOperations();

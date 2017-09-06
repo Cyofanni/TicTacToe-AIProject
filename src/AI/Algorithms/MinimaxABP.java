@@ -21,11 +21,18 @@ final public class MinimaxABP extends AbsMinimaxABP{
 
 	@Override
 	protected double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
-		//Count the new node
+		//Statistics: Count the new node
 		this.res.addNode();
 
-		if (state.checkEnd() || depthP == 0)
-			return this.getF().eval(state);
+		//Check the end of the game or the max depth
+		if (state.checkEnd() || depthP == 0){
+			double fvalue = this.getF().eval(state);
+
+			//Statistics: Set best score and nearest level
+			res.setBestScore(fvalue);
+			res.setNearestLevel(this.getDepth() - depthP -1);
+			return fvalue;
+		}
 
 		double v = Double.NEGATIVE_INFINITY;
 		ArrayList<AbsMove> actions = AIUtils.
@@ -49,11 +56,18 @@ final public class MinimaxABP extends AbsMinimaxABP{
 
 	@Override
 	protected double minValue(TicTacToe state, double alpha, double beta, int depthP) {
-		//Count the new node
+		//Statistics: Count the new node
 		this.res.addNode();
 
-		if (state.checkEnd() || depthP == 0)
-			return this.getF().eval(state);
+		//Check the end of the game or the max depth
+		if (state.checkEnd() || depthP == 0){
+			double fvalue = this.getF().eval(state);
+
+			//Statistics: Set best score and nearest level
+			res.setBestScore(fvalue);
+			res.setNearestLevel(this.getDepth() - depthP -1);
+			return fvalue;
+		}
 
 		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.
