@@ -1,11 +1,6 @@
 package ticTacToe;
 
-import AI.algorithms.*;
-import AI.EF.AdvanceEF;
-import AI.EF.IEvalFunction;
-import AI.EF.SimpleEF;
 import config.AbsConfig;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -47,11 +42,6 @@ public abstract class AbsTicTacToe {
     protected int activePlayer;
 
     /**
-     * The list of the all result
-     */
-    private ArrayList<AbsResult> results = new ArrayList<AbsResult>();
-
-    /**
      * Constructor
      */
     public AbsTicTacToe(AbsConfig config){
@@ -71,76 +61,7 @@ public abstract class AbsTicTacToe {
     /* ------------------------------- METHODS ---------------------------- */
     /* -------------------------------------------------------------------- */
 
-    public void start(){
-        System.out.println("---------- START --------");
-        this.printField();
-        int n = this.config.getNRows();
-        if(!this.config.getTypeOfGame()) {
-            while (!this.checkEnd())
-            {
-                AbsMove move = this.askMove(this.activePlayer);
-                this.move(move);
-                this.printField();
-            }
-        } else{
-            //Initialize the IA
-            IEvalFunction f;
-            switch (this.config.getEF()){
-                case 1:
-                    f = new AdvanceEF();
-                    break;
-                case 0:
-                default: f = new SimpleEF();
-            }
-
-
-            while (!this.checkEnd())
-            {
-                AbsMove move;
-                if(this.activePlayer == 0) {
-                    move = this.askMove(this.activePlayer);
-                } else {
-                    //Initialize the algorithm
-                    //N.B. Inside the while because the objects MatrixOperator and Results in Minimax
-                    //need to be created every time.
-                    AbsMinimaxStructure alg;
-                    switch (this.config.getAlgorithm()){
-                        case 0: {alg = new Minimax(
-                                this.getConfig().getDepth(),f);}
-                        break;
-                        case 1: {alg = new MinimaxRot(
-                                this.getConfig().getDepth(),f);}
-                        break;
-                        case 2: {alg = new MinimaxABP(
-                                this.getConfig().getDepth(),f);}
-                        break;
-                        case 3: {alg = new MinimaxABPRot(
-                                this.getConfig().getDepth(),f);}
-                        break;
-                        default: alg = new Minimax(
-                                this.getConfig().getDepth(),
-                                f);
-                    }
-
-                    move = alg.computeMove(this);
-                    results.add(alg.getResult());
-                    System.out.println("Move of the AI: "
-                            + move.getX() + " " + move.getY());
-                }
-                this.move(move);
-                this.printField();
-            }
-            this.printResult();
-        }
-
-        if(this.checkWinner()){
-            System.out.println("The winner is: Player" + this.activePlayer);
-        } else {
-            System.out.println("The winner is: Draw");
-        }
-        System.out.println("---------- END ----------");
-
-    }
+    public abstract void start();
 
 
     /**
@@ -318,23 +239,6 @@ public abstract class AbsTicTacToe {
         return new Move(nRow,nColumn);
     }
 
-    /**
-     * This method stamps all the results to the standard output
-     */
-    public void printResult(){
-        System.out.println("Following the results");
-        for(int i = 0; i < this.results.size(); i++){
-            AbsResult r = this.results.get(i);
-            if(i==0){
-                System.out.format("%-15s", "PLAY");
-                r.print(true);
-            }
-            System.out.format("%-15d", i + 1);
-            r.print(false);
-            System.out.println();
-        }
-    }
-
 
     /* -------------------------------------------------------------------- */
     /* ------------------------------- GETTERS ---------------------------- */
@@ -375,13 +279,6 @@ public abstract class AbsTicTacToe {
      * This method executes the deepClone of the tic tac toe object
      * @return The new tic tac object
      */
-    public abstract TicTacToe deepClone();
+    public abstract AbsTicTacToe deepClone();
 
-    /**
-     * This method allows access to the list of the results
-     * @return Results
-     */
-    public ArrayList<AbsResult> getResults() {
-        return results;
-    }
 }

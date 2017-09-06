@@ -3,6 +3,7 @@ package AI.algorithms;
 import AI.AIUtils;
 import AI.EF.IEvalFunction;
 import AI.MatrixOperations;
+import ticTacToe.AbsTicTacToe;
 import ticTacToe.TicTacToe;
 import ticTacToe.AbsMove;
 
@@ -24,7 +25,7 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 	}
 
 	@Override
-	protected double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
+	protected double maxValue(AbsTicTacToe state, double alpha, double beta, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -43,7 +44,7 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
+			AbsTicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 			char[][] currFieldConf = newState.getField();
 			boolean matchFound = mop.checkExistence(currFieldConf);
@@ -64,7 +65,7 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 	}
 
 	@Override
-	protected double minValue(TicTacToe state, double alpha, double beta, int depthP) {
+	protected double minValue(AbsTicTacToe state, double alpha, double beta, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -83,7 +84,7 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
+			AbsTicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 
 			char[][] currFieldConf = newState.getField();

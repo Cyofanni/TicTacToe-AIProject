@@ -23,21 +23,38 @@ public class AbsConfig  {
      */
     private int nLockedCells = 0;
     /**
-     * If the player play against the PC
+     * If the player0 play against the PC
      */
-    private boolean againstPC = false;
+    private boolean player0AI = false;
+
     /**
-     * The algorithm used by the PC
+     * If the player1 play against the PC
      */
-    private int algorithm = 0;
+    private boolean player1AI = false;
     /**
-     * The evaluation function used by the algorithm choose
+     * The algorithm used by the player0
      */
-    private int EF = 0;
+    private int algorithmP0 = 0;
     /**
-     * Max depth used by the algorithm
+     * The evaluation function used by the algorithm choose the player0
      */
-    private int depth = 0;
+    private int EFP0 = 0;
+    /**
+     * Max depth used by the algorithm of the player0
+     */
+    private int depthP0 = 0;
+    /**
+     * The algorithm used by the player1
+     */
+    private int algorithmP1 = 0;
+    /**
+     * The evaluation function used by the algorithm choose by the player1
+     */
+    private int EFP1 = 0;
+    /**
+     * Max depth used by the algorithm of the player1
+     */
+    private int depthP1 = 0;
 
     /**
      * Array representing the different EF
@@ -60,7 +77,7 @@ public class AbsConfig  {
     public AbsConfig(){}
 
     /**
-     * Constructor
+     * Constructor that allow 2 person to play
      * @param firstPlayer
      * @param nRows
      * @param nLockedCells
@@ -72,19 +89,43 @@ public class AbsConfig  {
     }
 
     /**
-     * Constructor
+     * Constructor that allow 1 AI to play
      * @param firstPlayer
      * @param nRows
      * @param nLockedCells
-     * @param algorithm
-     * @param EF
+     * @param algorithmP1
+     * @param EFP1
+     * @param depthP1
      */
-    public AbsConfig(int firstPlayer, int nRows, int nLockedCells, int algorithm, int EF, int depth){
+    public AbsConfig(int firstPlayer, int nRows, int nLockedCells,
+                     int algorithmP1, int EFP1, int depthP1){
         this(firstPlayer,nRows,nLockedCells);
-        this.algorithm = algorithm;
-        this.EF = EF;
-        this.depth = depth;
-        this.againstPC = true;
+        this.algorithmP1 = algorithmP1;
+        this.EFP1 = EFP1;
+        this.depthP1 = depthP1;
+        this.player1AI = true;
+    }
+
+    /**
+     * Constructor that allow 2 AI to play
+     * @param firstPlayer
+     * @param nRows
+     * @param nLockedCells
+     * @param algorithmP0
+     * @param EFP0
+     * @param depthP0
+     * @param algorithmP1
+     * @param EFP1
+     * @param depthP1
+     */
+    public AbsConfig(int firstPlayer, int nRows, int nLockedCells,
+                     int algorithmP0, int EFP0, int depthP0,
+                     int algorithmP1, int EFP1, int depthP1){
+        this(firstPlayer,nRows,nLockedCells,algorithmP1,EFP1,depthP1);
+        this.algorithmP0 = algorithmP0;
+        this.EFP0 = EFP0;
+        this.depthP0 = depthP0;
+        this.player0AI = true;
     }
 
 
@@ -97,10 +138,17 @@ public class AbsConfig  {
         this.askNRows();
         this.askNLockedCells();
         this.askTypeOfGame();
-        if(this.againstPC){
-            this.askAlgorithm();
-            this.askEF();
-            this.askMaxDepth();
+        if(this.player0AI){
+            System.out.println("Following the data insertion for the AI of the Player0");
+            this.algorithmP0 = this.askAlgorithm();
+            this.EFP0 = this.askEF();
+            this.depthP0 = this.askMaxDepth();
+        }
+        if(this.player1AI){
+            System.out.println("Following the data insertion for the AI of the Player1");
+            this.algorithmP1 = this.askAlgorithm();
+            this.EFP1 = this.askEF();
+            this.depthP1 = this.askMaxDepth();
         }
         System.out.println("---------- End initial Config ----------");
     }
@@ -115,7 +163,7 @@ public class AbsConfig  {
     protected void askFirstPlayer(){
         System.out.println("Insert the number of the first player: ");
         System.out.println(" 0 - Player0");
-        System.out.println(" 1 - Player1");
+        System.out.println(" 1 - Player1 or AI");
         System.out.print("Number: ");
         Scanner reader = new Scanner(System.in);
         int number = reader.nextInt();
@@ -164,14 +212,27 @@ public class AbsConfig  {
      * Ask the user if want to play against the PC
      */
     protected void askTypeOfGame(){
-        System.out.print("Do you want to play against the PC? 'yes' or 'no': ");
+        System.out.println("Mode of the game: ");
+        System.out.println(" 0 - Player0 against Player1");
+        System.out.println(" 1 - Player0 against AI");
+        System.out.println(" 2 - AI against AI");
+        System.out.print("Number: ");
         Scanner reader = new Scanner(System.in);
-        String resp = reader.nextLine();
-        if(resp.equals("yes"))
-        {
-            this.againstPC = true;
-        }else{
-            if(!resp.equals("no")){
+        int number = reader.nextInt();
+        switch (number){
+            case 0:{
+                this.player0AI = false;
+                this.player1AI = false;
+            }break;
+            case 1:{
+                this.player0AI = false;
+                this.player1AI = true;
+            } break;
+            case 2: {
+                this.player0AI = true;
+                this.player1AI = true;
+            } break;
+            default:{
                 System.out.print("Error: Try again");
                 this.askTypeOfGame();
             }
@@ -180,8 +241,9 @@ public class AbsConfig  {
 
     /**
      * Ask the user the algorithm of AI
+     * @return the number of the chosen one
      */
-    protected void askAlgorithm(){
+    protected int askAlgorithm(){
         System.out.println("Choose one of these algorithms");
         int max = this.algorithms.length;
         for(int i = 0; i < max; i++){
@@ -192,17 +254,18 @@ public class AbsConfig  {
         int number = reader.nextInt();
         if(number >= 0 && number < max)
         {
-            this.algorithm = number;
+            return number;
         }else{
             System.out.print("Error: Try again");
-            this.askAlgorithm();
+            return this.askAlgorithm();
         }
     }
 
     /**
      * Ask the user the EF of the AI
+     * @return the number of the chosen one
      */
-    protected void askEF(){
+    protected int askEF(){
         System.out.println("Choose one of these EF");
         int max = this.EFs.length;
         for(int i = 0; i < max; i++){
@@ -213,26 +276,27 @@ public class AbsConfig  {
         int number = reader.nextInt();
         if(number >= 0 && number < max)
         {
-            this.EF = number;
+            return number;
         }else{
             System.out.print("Error: Try again");
-            this.askEF();
+            return this.askEF();
         }
     }
 
     /**
      * Ask the user the max depth
+     * @return the number of the chosen one
      */
-    protected void askMaxDepth(){
+    protected int askMaxDepth(){
         System.out.print("Insert the max depth: ");
         Scanner reader = new Scanner(System.in);
         int number = reader.nextInt();
         if(number > 0)
         {
-            this.depth = number;
+            return number;
         }else{
             System.out.print("Error: Try again");
-            this.askMaxDepth();
+            return this.askMaxDepth();
         }
     }
 
@@ -265,35 +329,67 @@ public class AbsConfig  {
     }
 
     /**
-     * Return true if the player play against the PC,  otherwise false
-     * @return TRUE if the player play against the PC
+     * Return true if the player0 represent the AI,  otherwise false
+     * @return TRUE if the player0 play against the PC
      */
-    public boolean getTypeOfGame(){
-        return this.againstPC;
+    public boolean getPlayer0AI(){
+        return this.player0AI;
     }
 
     /**
-     * Return the algorithm chosen by the player
+     * Return true if the player1 represent the AI,  otherwise false
+     * @return TRUE if the player1 play against the PC
+     */
+    public boolean getPlayer1AI(){
+        return this.player1AI;
+    }
+
+    /**
+     * Return the algorithm chosen by the Player0
      * @return algorithm
      */
-    public int getAlgorithm(){
-        return this.algorithm;
+    public int getAlgorithmP0(){
+        return this.algorithmP0;
     }
 
     /**
-     * Return the function chosen by the player
+     * Return the function chosen by the Player0
      * @return function
      */
-    public int getEF(){
-        return this.EF;
+    public int getEFP0(){
+        return this.EFP0;
     }
 
     /**
-     * Return the max number of depth
+     * Return the max depth number of Player0
      * @return depth
      */
-    public int getDepth(){
-        return this.depth;
+    public int getDepthP0(){
+        return this.depthP0;
+    }
+
+    /**
+     * Return the algorithm chosen by the Player1
+     * @return algorithm
+     */
+    public int getAlgorithmP1(){
+        return this.algorithmP1;
+    }
+
+    /**
+     * Return the function chosen by the Player1
+     * @return function
+     */
+    public int getEFP1(){
+        return this.EFP1;
+    }
+
+    /**
+     * Return the max depth number of Player1
+     * @return depth
+     */
+    public int getDepthP1(){
+        return this.depthP1;
     }
 
     /* -------------------------------------------------------------------- */
@@ -304,17 +400,28 @@ public class AbsConfig  {
      * Print the description of the configs in the standard output
      */
     public void print(){
+        boolean p0 = this.getPlayer0AI();
+        boolean p1 = this.getPlayer1AI();
+        System.out.println("First player: " + this.firstPlayer);
         System.out.println("Number of rows and columns: " + this.getNRows());
         System.out.println("Number of locked cells: " + this.getNLockedCells());
-        boolean b = this.getTypeOfGame();
-        System.out.println("Against PC?: " + b);
-        if(b) {
-            int nAlgorithm = this.getAlgorithm();
+        System.out.println("Player0 is an AI?: " + p0);
+        if(p0) {
+            int nAlgorithm = this.getAlgorithmP0();
             System.out.println("Algorithm: " + nAlgorithm + " - "
                     + this.algorithms[nAlgorithm]);
-            int nEF = this.getEF();
+            int nEF = this.getEFP0();
             System.out.println("EF: " + nEF + " - " + this.EFs[nEF]);
-            System.out.println("Max depth: " + this.getDepth());
+            System.out.println("Max depth: " + this.getDepthP0());
+        }
+        System.out.println("Player1 is an AI?: " + p1);
+        if(p1) {
+            int nAlgorithm = this.getAlgorithmP1();
+            System.out.println("Algorithm: " + nAlgorithm + " - "
+                    + this.algorithms[nAlgorithm]);
+            int nEF = this.getEFP1();
+            System.out.println("EF: " + nEF + " - " + this.EFs[nEF]);
+            System.out.println("Max depth: " + this.getDepthP1());
         }
     }
 

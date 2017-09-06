@@ -2,6 +2,7 @@ package AI.algorithms;
 
 import AI.AIUtils;
 import AI.EF.IEvalFunction;
+import ticTacToe.AbsTicTacToe;
 import ticTacToe.TicTacToe;
 import ticTacToe.AbsMove;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ final public class MinimaxABP extends AbsMinimaxABP{
 	}
 
 	@Override
-	protected double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
+	protected double maxValue(AbsTicTacToe state, double alpha, double beta, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -38,7 +39,7 @@ final public class MinimaxABP extends AbsMinimaxABP{
 		ArrayList<AbsMove> actions = AIUtils.
 				computeActions(state.getField());
 		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
+			AbsTicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 
             		double min = minValue(newState,alpha, beta, depthP - 1);
@@ -55,7 +56,7 @@ final public class MinimaxABP extends AbsMinimaxABP{
 	}
 
 	@Override
-	protected double minValue(TicTacToe state, double alpha, double beta, int depthP) {
+	protected double minValue(AbsTicTacToe state, double alpha, double beta, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -73,7 +74,7 @@ final public class MinimaxABP extends AbsMinimaxABP{
 		ArrayList< AbsMove> actions = AIUtils.
 				computeActions(state.getField());
 		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
+			AbsTicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 
 			double max = maxValue(newState, alpha, beta, depthP - 1);

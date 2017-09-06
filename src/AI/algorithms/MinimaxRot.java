@@ -3,6 +3,7 @@ package AI.algorithms;
 import AI.AIUtils;
 import AI.EF.IEvalFunction;
 import AI.MatrixOperations;
+import ticTacToe.AbsTicTacToe;
 import ticTacToe.TicTacToe;
 import ticTacToe.AbsMove;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ final public class MinimaxRot extends AbsMinimax{
 	}
 
 	@Override
-	protected double maxValue(TicTacToe state, int depthP) {
+	protected double maxValue(AbsTicTacToe state, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -43,7 +44,7 @@ final public class MinimaxRot extends AbsMinimax{
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());    //create an array with the legal action from the state
 
 		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
+			AbsTicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 			char[][] currFieldConf = newState.getField();
 			boolean matchFound = mop.checkExistence(currFieldConf);
@@ -61,7 +62,7 @@ final public class MinimaxRot extends AbsMinimax{
 	}
 
 	@Override
-	protected double minValue(TicTacToe state, int depthP) {
+	protected double minValue(AbsTicTacToe state, int depthP) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
@@ -80,7 +81,7 @@ final public class MinimaxRot extends AbsMinimax{
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
-			TicTacToe newState = state.deepClone();
+			AbsTicTacToe newState = state.deepClone();
 			newState.move(actions.get(i));
 			char[][] currFieldConf = newState.getField();   //get the field from the new state
 			boolean matchFound = mop.checkExistence(currFieldConf);

@@ -23,9 +23,9 @@ public abstract class AbsMinimax extends AbsMinimaxStructure {
         super(depth,f);
     }
 
-    protected abstract double maxValue(TicTacToe state, int depthP);
+    protected abstract double maxValue(AbsTicTacToe state, int depthP);
 
-    protected abstract double minValue(TicTacToe state, int depthP);
+    protected abstract double minValue(AbsTicTacToe state, int depthP);
 
     @Override
     public AbsMove computeMove(AbsTicTacToe state){
@@ -38,7 +38,7 @@ public abstract class AbsMinimax extends AbsMinimaxStructure {
         AbsMove bestMove = null;
 
         for (int i = 0; i < actions.size(); i++){
-            TicTacToe newState = state.deepClone();
+            AbsTicTacToe newState = state.deepClone();
             newState.move(actions.get(i));
             double minValue = minValue(newState, this.getDepth() - 1);
             if (minValue > max){

@@ -1,5 +1,9 @@
 package ticTacToe;
 
+import AI.EF.AdvanceEF;
+import AI.EF.IEvalFunction;
+import AI.EF.SimpleEF;
+import AI.algorithms.*;
 import config.AbsConfig;
 
 /**
@@ -24,7 +28,28 @@ public class TicTacToe extends AbsTicTacToe {
     }
 
     @Override
-    public TicTacToe deepClone(){
+    public void start() {
+        System.out.println("---------- START --------");
+        this.printField();
+
+        while (!this.checkEnd())
+        {
+            AbsMove move = this.askMove(this.activePlayer);
+            this.move(move);
+            this.printField();
+        }
+
+        if(this.checkWinner()){
+            System.out.println("The winner is: Player" + this.activePlayer);
+        } else {
+            System.out.println("The winner is: Draw");
+        }
+        System.out.println("---------- END ----------");
+
+    }
+
+    @Override
+    public AbsTicTacToe deepClone(){
         // Coping the field
         int n = this.config.getNRows();
         char[][] newField = new char[n][n];
