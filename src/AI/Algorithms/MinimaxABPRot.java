@@ -24,6 +24,9 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 
 	@Override
 	protected double maxValue(TicTacToe state, double alpha, double beta, int depthP) {
+		//Count the new node
+		this.res.addNode();
+
 		if (state.checkEnd() || depthP == 0)
 			return this.getF().eval(state);
 
@@ -55,6 +58,9 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 
 	@Override
 	protected double minValue(TicTacToe state, double alpha, double beta, int depthP) {
+		//Count the new node
+		this.res.addNode();
+
 		if (state.checkEnd() || depthP == 0)
 			return this.getF().eval(state);
 
