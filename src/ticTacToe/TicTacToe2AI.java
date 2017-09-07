@@ -1,8 +1,5 @@
 package ticTacToe;
 
-import AI.EF.AdvanceEF;
-import AI.EF.IEvalFunction;
-import AI.EF.SimpleEF;
 import AI.algorithms.*;
 import config.AbsConfig;
 
@@ -51,64 +48,14 @@ public class TicTacToe2AI extends AbsTicTacToeAI {
         if(this.isPrintField) {
             this.printField();
         }
-
-        //Initialize the IA of the player0
-        IEvalFunction fP0;
-        switch (this.config.getEFP0()) {
-            case 1:
-                fP0 = new AdvanceEF();
-                break;
-            case 0:
-            default:
-                fP0 = new SimpleEF();
-        }
-        //Initialize the IA of the player1
-        IEvalFunction fP1;
-        switch (this.config.getEFP1()) {
-            case 1:
-                fP1 = new AdvanceEF();
-                break;
-            case 0:
-            default:
-                fP1 = new SimpleEF();
-        }
+        AbsConfig config = this.getConfig();
 
         //Initialize the algorithmP0
-        AbsMinimaxStructure algP0;
-        switch (this.config.getAlgorithmP0()){
-            case 0: {algP0 = new Minimax(
-                    this.getConfig().getDepthP0(),fP0);}
-            break;
-            case 1: {algP0 = new MinimaxRot(
-                    this.getConfig().getDepthP0(),fP0);}
-            break;
-            case 2: {algP0 = new MinimaxABP(
-                    this.getConfig().getDepthP0(),fP0);}
-            break;
-            case 3: {algP0 = new MinimaxABPRot(
-                    this.getConfig().getDepthP0(),fP0);}
-            break;
-            default: algP0 = new Minimax(
-                    this.getConfig().getDepthP0(), fP0);
-        }
+        AbsMinimaxStructure algP0 = AbsTicTacToeAI.initAlgorithm(
+                config.getAlgorithmP0(), config.getDepthP0(),config.getEFP0());
         //Initialize the algorithmP1
-        AbsMinimaxStructure algP1;
-        switch (this.config.getAlgorithmP1()){
-            case 0: {algP1 = new Minimax(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            case 1: {algP1 = new MinimaxRot(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            case 2: {algP1 = new MinimaxABP(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            case 3: {algP1 = new MinimaxABPRot(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            default: algP1 = new Minimax(
-                    this.getConfig().getDepthP1(), fP1);
-        }
+        AbsMinimaxStructure algP1 = AbsTicTacToeAI.initAlgorithm(
+                config.getAlgorithmP1(), config.getDepthP1(),config.getEFP1());
 
         //Play until the end
         while (!this.checkEnd())
@@ -116,10 +63,10 @@ public class TicTacToe2AI extends AbsTicTacToeAI {
             int player = this.activePlayer;
             AbsMove move;
             if(player == 0) {
-                move = algP0.computeMove(this,0);
+                move = algP0.computeMove(this,player);
                 this.getResultsP0().add(algP0.getResult());
             } else {
-                move = algP1.computeMove(this,1);
+                move = algP1.computeMove(this,player);
                 this.getResultsP1().add(algP1.getResult());
             }
 

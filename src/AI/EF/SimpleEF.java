@@ -8,24 +8,21 @@ import ticTacToe.AbsTicTacToeAI;
  *
  * @author Davide Rigoni
  */
-public class SimpleEF implements IEvalFunction{
+public class SimpleEF extends AbsEvalFunction{
 
     @Override
     public double eval(AbsTicTacToeAI state, int currentAI) {
         char[][] field = state.getField();
+        double result = 0;
+
+
         if(state.checkEnd()){
-            if(state.checkWinner()){
-                if(state.getActivePlayer() == currentAI) {
-                    return field.length;
-                }else{
-                    return -field.length;
-                }
-            } else{
-                return 0;
-            }
+            result += AbsEvalFunction.WinScore(state,currentAI);
         } else{
-            double valAI = AIUtils.SimpleAIAlgorithm(field,currentAI);
-            return valAI;
+            double valAI = AbsEvalFunction.SimpleAIAlgorithm(field,currentAI);
+            result+= valAI;
         }
+
+        return result;
     }
 }

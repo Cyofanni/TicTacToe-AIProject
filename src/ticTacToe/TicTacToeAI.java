@@ -35,36 +35,11 @@ public class TicTacToeAI extends AbsTicTacToeAI {
     public void start() {
         System.out.println("---------- START --------");
         this.printField();
-
-        //Initialize the IA of the player1
-        IEvalFunction fP1;
-        switch (this.config.getEFP1()) {
-            case 1:
-                fP1 = new AdvanceEF();
-                break;
-            case 0:
-            default:
-                fP1 = new SimpleEF();
-        }
+        AbsConfig config = this.getConfig();
 
         //Initialize the algorithm
-        AbsMinimaxStructure alg;
-        switch (this.config.getAlgorithmP1()){
-            case 0: {alg = new Minimax(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            case 1: {alg = new MinimaxRot(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            case 2: {alg = new MinimaxABP(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            case 3: {alg = new MinimaxABPRot(
-                    this.getConfig().getDepthP1(),fP1);}
-            break;
-            default: alg = new Minimax(
-                    this.getConfig().getDepthP1(), fP1);
-        }
+        AbsMinimaxStructure alg = AbsTicTacToeAI.initAlgorithm(
+                config.getAlgorithmP1(), config.getDepthP1(),config.getEFP1());
 
         while (!this.checkEnd())
         {
