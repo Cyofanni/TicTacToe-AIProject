@@ -19,6 +19,7 @@ public class SimpleEF extends AbsEvalFunction{
         if(state.checkEnd()){
             result += AbsEvalFunction.WinScore(state,currentAI);
         } else{
+            result += AbsEvalFunction.ExtraScoreSimple(field, currentAI);
             double valAI = AbsEvalFunction.SimpleAIAlgorithm(field,currentAI);
             result+= valAI;
         }

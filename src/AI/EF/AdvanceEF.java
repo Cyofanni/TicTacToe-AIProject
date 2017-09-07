@@ -17,11 +17,10 @@ public class AdvanceEF  extends AbsEvalFunction{
         double result = 0;
 
 
-        result += AbsEvalFunction.ExtraScore(field,currentAI);
-
         if(state.checkEnd()){
             result += AbsEvalFunction.WinScore(state,currentAI);
         } else{
+            result += AbsEvalFunction.ExtraScore(field,currentAI);
             //Evaluate the fields from both the AI and player
             double valAI = AbsEvalFunction.SimpleAIAlgorithm(field,currentAI);
             double valPlayer = AbsEvalFunction.SimpleAIAlgorithm(field,otherAI);

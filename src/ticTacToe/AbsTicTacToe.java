@@ -106,7 +106,7 @@ public abstract class AbsTicTacToe {
      */
     public boolean move(AbsMove move){
         this.move(this.activePlayer, move);
-        boolean result = this.checkWinner();
+        boolean result = this.checkEnd();
         if(!result)
             this.activePlayer = (this.activePlayer + 1) % 2;
         return result;

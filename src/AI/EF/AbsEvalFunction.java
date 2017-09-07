@@ -101,42 +101,43 @@ public abstract class AbsEvalFunction implements IEvalFunction{
         int length = field.length;
         double result = 0;
         int otherAI = (currentAI + 1) % 2;
+        double score = 0.25;
 
         //Give an extra score to the center cell
         if (length % 2 == 1) {
             int index = (length / 2);
-            if (field[index][index] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
+            if (field[index][index] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
                 result +=  length;
             } else {
-                if (field[index][index] == AbsTicTacToeAI.PLAYERSVALUE[otherAI]) {
+                if (field[index][index] == AbsTicTacToe.PLAYERSVALUE[otherAI]) {
                     result -= length;
                 }
             }
         }
 
-        if (field[0][0] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result +=  0.25;
+        if (field[0][0] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result +=  score;
         } else {
-            if (field[0][0] == AbsTicTacToeAI.PLAYERSVALUE[otherAI])
-                result -= 0.25;
+            if (field[0][0] == AbsTicTacToe.PLAYERSVALUE[otherAI])
+                result -= score;
         }
-        if (field[length - 1][0] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result += 0.25;
+        if (field[length - 1][0] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result += score;
         } else {
-            if (field[length - 1][0] == AbsTicTacToeAI.PLAYERSVALUE[otherAI])
-                result -= 0.25;
+            if (field[length - 1][0] == AbsTicTacToe.PLAYERSVALUE[otherAI])
+                result -= score;
         }
-        if (field[0][length - 1] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result += 0.25;
+        if (field[0][length - 1] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result += score;
         } else {
-            if (field[0][length - 1] == AbsTicTacToeAI.PLAYERSVALUE[otherAI])
-                result -= 0.25;
+            if (field[0][length - 1] == AbsTicTacToe.PLAYERSVALUE[otherAI])
+                result -= score;
         }
-        if (field[length - 1][length - 1] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result += 0.25;
+        if (field[length - 1][length - 1] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result += score;
         } else {
-            if (field[length - 1][length - 1] == AbsTicTacToeAI.PLAYERSVALUE[otherAI])
-                result -= 0.25;
+            if (field[length - 1][length - 1] == AbsTicTacToe.PLAYERSVALUE[otherAI])
+                result -= score;
         }
         return result;
     }
@@ -151,27 +152,27 @@ public abstract class AbsEvalFunction implements IEvalFunction{
     public static double ExtraScoreSimple(char[][] field, int currentAI) {
         int length = field.length;
         double result = 0;
-        int otherAI = (currentAI + 1) % 2;
+        double score = 0.25;
 
         //Give an extra score to the center cell
         if (length % 2 == 1) {
             int index = (length / 2);
-            if (field[index][index] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
+            if (field[index][index] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
                 result +=  length;
             }
         }
 
-        if (field[0][0] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result +=  0.25;
+        if (field[0][0] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result +=  score;
         }
-        if (field[length - 1][0] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result += 0.25;
+        if (field[length - 1][0] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result += score;
         }
-        if (field[0][length - 1] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result += 0.25;
+        if (field[0][length - 1] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result += score;
         }
-        if (field[length - 1][length - 1] == AbsTicTacToeAI.PLAYERSVALUE[currentAI]) {
-            result += 0.25;
+        if (field[length - 1][length - 1] == AbsTicTacToe.PLAYERSVALUE[currentAI]) {
+            result += score;
         }
         return result;
     }

@@ -40,7 +40,7 @@ final public class MinimaxABP extends AbsMinimaxABP{
 			AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
 			newState.move(actions.get(i));
 
-            		double min = minValue(newState,alpha, beta, depthP - 1, currentAI);
+			double min = minValue(newState,alpha, beta, depthP - 1, currentAI);
 			if (min > v)
 				v = min;
 
