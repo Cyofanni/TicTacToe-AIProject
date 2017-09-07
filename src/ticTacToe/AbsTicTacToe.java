@@ -1,7 +1,6 @@
 package ticTacToe;
 
 import config.AbsConfig;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -280,5 +279,26 @@ public abstract class AbsTicTacToe {
      * @return The new tic tac object
      */
     public abstract AbsTicTacToe deepClone();
+
+    //-------------------------------------------------------------------------
+    //----------------------- STATIC METHODS ----------------------------------
+    //-------------------------------------------------------------------------
+
+    /**
+     * This static method copy a field
+     * @param field The field to copy
+     * @return  The new Field
+     */
+    public static char[][] copyField(char[][] field){
+        int n = field.length;
+        char[][] newField = new char[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                newField[i][j] = field[i][j];
+            }
+        }
+
+        return newField;
+    }
 
 }

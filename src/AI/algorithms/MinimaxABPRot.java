@@ -3,8 +3,7 @@ package AI.algorithms;
 import AI.AIUtils;
 import AI.EF.IEvalFunction;
 import AI.MatrixOperations;
-import ticTacToe.AbsTicTacToe;
-import ticTacToe.TicTacToe;
+import ticTacToe.*;
 import ticTacToe.AbsMove;
 
 import java.util.ArrayList;
@@ -25,13 +24,13 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 	}
 
 	@Override
-	protected double maxValue(AbsTicTacToe state, double alpha, double beta, int depthP) {
+	protected double maxValue(AbsTicTacToeAI state, double alpha, double beta, int depthP, int currentAI) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
 		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
-			double fvalue = this.getF().eval(state);
+			double fvalue = this.getF().eval(state, currentAI);
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
@@ -44,13 +43,13 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
-			AbsTicTacToe newState = state.deepClone();
+			AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
 			newState.move(actions.get(i));
 			char[][] currFieldConf = newState.getField();
 			boolean matchFound = mop.checkExistence(currFieldConf);
 
 			if (matchFound == false){
-            			double min = minValue(newState,alpha, beta, depthP - 1);
+            			double min = minValue(newState,alpha, beta, depthP - 1, currentAI);
 				if (min > v)
 					v = min;
 
@@ -65,13 +64,13 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 	}
 
 	@Override
-	protected double minValue(AbsTicTacToe state, double alpha, double beta, int depthP) {
+	protected double minValue(AbsTicTacToeAI state, double alpha, double beta, int depthP, int currentAI) {
 		//Statistics: Count the new node
 		this.res.addNode();
 
 		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
-			double fvalue = this.getF().eval(state);
+			double fvalue = this.getF().eval(state, currentAI);
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
@@ -84,14 +83,14 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
 		for (int i = 0; i < actions.size(); i++){
-			AbsTicTacToe newState = state.deepClone();
+			AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
 			newState.move(actions.get(i));
 
 			char[][] currFieldConf = newState.getField();
 			boolean matchFound = mop.checkExistence(currFieldConf);
 
 			if (matchFound == false){
-				double max = maxValue(newState, alpha, beta, depthP - 1);
+				double max = maxValue(newState, alpha, beta, depthP - 1, currentAI);
 				if (max < v){
 					v = max;
 				}	

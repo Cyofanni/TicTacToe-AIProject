@@ -1,6 +1,7 @@
 package AI.algorithms;
 
 import AI.EF.IEvalFunction;
+import AI.MatrixOperations;
 import ticTacToe.AbsResult;
 import ticTacToe.Result;
 
@@ -10,7 +11,8 @@ import ticTacToe.Result;
 public abstract class AbsMinimaxStructure implements IMinimax {
     private int depth;
     private IEvalFunction f;
-    protected Result res = new Result();
+    protected Result res;
+    protected MatrixOperations mop;
 
 
     /**
@@ -21,7 +23,7 @@ public abstract class AbsMinimaxStructure implements IMinimax {
     public AbsMinimaxStructure(int depth, IEvalFunction f){
         this.depth = depth;
         this.f = f;
-    }
+     }
 
     //-----------------------------------------------------------------
     //------------------------ GETTERS --------------------------------

@@ -1,7 +1,7 @@
 package AI.algorithms;
 
 import ticTacToe.AbsMove;
-import ticTacToe.AbsTicTacToe;
+import ticTacToe.AbsTicTacToeAI;
 
 /**
  * This interface represents the Minimax algorithm
@@ -9,6 +9,6 @@ import ticTacToe.AbsTicTacToe;
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
 public interface IMinimax {
-	AbsMove computeMove(AbsTicTacToe state);
+	AbsMove computeMove(AbsTicTacToeAI state, int currentAI);
 }
 

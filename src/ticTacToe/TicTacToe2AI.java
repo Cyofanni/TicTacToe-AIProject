@@ -13,18 +13,12 @@ import java.util.ArrayList;
  *
  * @author Davide Rigoni
  */
-public class TicTacToe2AI extends AbsTicTacToe {
+public class TicTacToe2AI extends AbsTicTacToeAI {
 
     /**
      * The list of the all result of the AI of the player0
      */
     private ArrayList<AbsResult> resultsP0 = new ArrayList<AbsResult>();
-
-    /**
-     * The list of the all result of the AI of the player01
-     */
-    private ArrayList<AbsResult> resultsP1 = new ArrayList<AbsResult>();
-
 
     /**
      * Represent the print of the field
@@ -79,57 +73,54 @@ public class TicTacToe2AI extends AbsTicTacToe {
                 fP1 = new SimpleEF();
         }
 
+        //Initialize the algorithmP0
+        AbsMinimaxStructure algP0;
+        switch (this.config.getAlgorithmP0()){
+            case 0: {algP0 = new Minimax(
+                    this.getConfig().getDepthP0(),fP0);}
+            break;
+            case 1: {algP0 = new MinimaxRot(
+                    this.getConfig().getDepthP0(),fP0);}
+            break;
+            case 2: {algP0 = new MinimaxABP(
+                    this.getConfig().getDepthP0(),fP0);}
+            break;
+            case 3: {algP0 = new MinimaxABPRot(
+                    this.getConfig().getDepthP0(),fP0);}
+            break;
+            default: algP0 = new Minimax(
+                    this.getConfig().getDepthP0(), fP0);
+        }
+        //Initialize the algorithmP1
+        AbsMinimaxStructure algP1;
+        switch (this.config.getAlgorithmP1()){
+            case 0: {algP1 = new Minimax(
+                    this.getConfig().getDepthP1(),fP1);}
+            break;
+            case 1: {algP1 = new MinimaxRot(
+                    this.getConfig().getDepthP1(),fP1);}
+            break;
+            case 2: {algP1 = new MinimaxABP(
+                    this.getConfig().getDepthP1(),fP1);}
+            break;
+            case 3: {algP1 = new MinimaxABPRot(
+                    this.getConfig().getDepthP1(),fP1);}
+            break;
+            default: algP1 = new Minimax(
+                    this.getConfig().getDepthP1(), fP1);
+        }
+
         //Play until the end
         while (!this.checkEnd())
         {
             int player = this.activePlayer;
             AbsMove move;
             if(player == 0) {
-                //Initialize the algorithm
-                //N.B. Inside the while because the objects MatrixOperator and Results in Minimax
-                //need to be created every time.
-                AbsMinimaxStructure alg;
-                switch (this.config.getAlgorithmP0()){
-                    case 0: {alg = new Minimax(
-                            this.getConfig().getDepthP0(),fP0);}
-                    break;
-                    case 1: {alg = new MinimaxRot(
-                            this.getConfig().getDepthP0(),fP0);}
-                    break;
-                    case 2: {alg = new MinimaxABP(
-                            this.getConfig().getDepthP0(),fP0);}
-                    break;
-                    case 3: {alg = new MinimaxABPRot(
-                            this.getConfig().getDepthP0(),fP0);}
-                    break;
-                    default: alg = new Minimax(
-                            this.getConfig().getDepthP0(), fP0);
-                }
-                move = alg.computeMove(this);
-                this.getResultsP0().add(alg.getResult());
+                move = algP0.computeMove(this,0);
+                this.getResultsP0().add(algP0.getResult());
             } else {
-                //Initialize the algorithm
-                //N.B. Inside the while because the objects MatrixOperator and Results in Minimax
-                //need to be created every time.
-                AbsMinimaxStructure alg;
-                switch (this.config.getAlgorithmP1()){
-                    case 0: {alg = new Minimax(
-                            this.getConfig().getDepthP1(),fP1);}
-                    break;
-                    case 1: {alg = new MinimaxRot(
-                            this.getConfig().getDepthP1(),fP1);}
-                    break;
-                    case 2: {alg = new MinimaxABP(
-                            this.getConfig().getDepthP1(),fP1);}
-                    break;
-                    case 3: {alg = new MinimaxABPRot(
-                            this.getConfig().getDepthP1(),fP1);}
-                    break;
-                    default: alg = new Minimax(
-                            this.getConfig().getDepthP1(), fP1);
-                }
-                move = alg.computeMove(this);
-                this.getResultsP1().add(alg.getResult());
+                move = algP1.computeMove(this,1);
+                this.getResultsP1().add(algP1.getResult());
             }
 
             this.move(move);
@@ -160,15 +151,8 @@ public class TicTacToe2AI extends AbsTicTacToe {
 
     @Override
     public AbsTicTacToe deepClone(){
-        // Coping the field
-        int n = this.config.getNRows();
-        char[][] newField = new char[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                newField[i][j] = this.field[i][j];
-            }
-        }
-        TicTacToe2AI obj = new TicTacToe2AI(this.config, newField, this.activePlayer);
+        char[][] newField = AbsTicTacToe.copyField(this.field);
+        AbsTicTacToeAI obj = new TicTacToe2AI(this.config, newField, this.activePlayer);
         return obj;
     }
 
@@ -189,23 +173,6 @@ public class TicTacToe2AI extends AbsTicTacToe {
         }
     }
 
-    /**
-     * This method stamps all the results to the standard output of the Player1
-     */
-    public void printResultP1(){
-        System.out.println("Following the results");
-        for(int i = 0; i < this.resultsP1.size(); i++){
-            AbsResult r = this.resultsP1.get(i);
-            if(i==0){
-                System.out.format("%-15s", "PLAY");
-                r.print(true);
-            }
-            System.out.format("%-15d", i + 1);
-            r.print(false);
-            System.out.println();
-        }
-    }
-
     /* -------------------------------------------------------------------- */
     /* ------------------------------- GETTERS ---------------------------- */
     /* -------------------------------------------------------------------- */
@@ -215,14 +182,6 @@ public class TicTacToe2AI extends AbsTicTacToe {
      */
     public ArrayList<AbsResult> getResultsP0() {
         return resultsP0;
-    }
-
-    /**
-     * This method allows access to the list of the results of the Player1
-     * @return Results Player1
-     */
-    public ArrayList<AbsResult> getResultsP1() {
-        return resultsP1;
     }
 
     /**

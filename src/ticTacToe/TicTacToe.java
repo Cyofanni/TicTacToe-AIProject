@@ -1,9 +1,5 @@
 package ticTacToe;
 
-import AI.EF.AdvanceEF;
-import AI.EF.IEvalFunction;
-import AI.EF.SimpleEF;
-import AI.algorithms.*;
 import config.AbsConfig;
 
 /**
@@ -50,14 +46,7 @@ public class TicTacToe extends AbsTicTacToe {
 
     @Override
     public AbsTicTacToe deepClone(){
-        // Coping the field
-        int n = this.config.getNRows();
-        char[][] newField = new char[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                newField[i][j] = this.field[i][j];
-            }
-        }
+        char[][] newField = AbsTicTacToe.copyField(this.field);
         TicTacToe obj = new TicTacToe(this.config, newField, this.activePlayer);
         return obj;
     }

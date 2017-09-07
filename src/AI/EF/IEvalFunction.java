@@ -1,6 +1,6 @@
 package AI.EF;
 
-import ticTacToe.AbsTicTacToe;
+import ticTacToe.AbsTicTacToeAI;
 
 /**
  * Interface of the functions of evaluations
@@ -13,5 +13,5 @@ public interface IEvalFunction {
      * This method evaluate the state of the game
      * @return The score of the state
      */
-    double eval(AbsTicTacToe state);
+    double eval(AbsTicTacToeAI state, int currentAI);
 }

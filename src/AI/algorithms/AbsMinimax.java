@@ -3,11 +3,8 @@ package AI.algorithms;
 
 import AI.AIUtils;
 import AI.EF.IEvalFunction;
-import ticTacToe.AbsMove;
-import ticTacToe.AbsTicTacToe;
-import ticTacToe.Result;
-import ticTacToe.TicTacToe;
-
+import AI.MatrixOperations;
+import ticTacToe.*;
 import java.util.ArrayList;
 
 /**
@@ -23,13 +20,15 @@ public abstract class AbsMinimax extends AbsMinimaxStructure {
         super(depth,f);
     }
 
-    protected abstract double maxValue(AbsTicTacToe state, int depthP);
+    protected abstract double maxValue(AbsTicTacToeAI state, int depthP, int currentAI);
 
-    protected abstract double minValue(AbsTicTacToe state, int depthP);
+    protected abstract double minValue(AbsTicTacToeAI state, int depthP, int currentAI);
 
     @Override
-    public AbsMove computeMove(AbsTicTacToe state){
+    public AbsMove computeMove(AbsTicTacToeAI state, int currentAI){
         //Start the time and sum 1 to node because of root
+        this.mop = new MatrixOperations();
+        this.res = new Result();
         this.res.startTime();
         this.res.addNode();
 
@@ -38,9 +37,9 @@ public abstract class AbsMinimax extends AbsMinimaxStructure {
         AbsMove bestMove = null;
 
         for (int i = 0; i < actions.size(); i++){
-            AbsTicTacToe newState = state.deepClone();
+            AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
             newState.move(actions.get(i));
-            double minValue = minValue(newState, this.getDepth() - 1);
+            double minValue = minValue(newState, this.getDepth() - 1,currentAI);
             if (minValue > max){
                 max = minValue;
                 bestMove = actions.get(i);

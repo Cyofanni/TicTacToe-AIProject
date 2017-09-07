@@ -1,7 +1,7 @@
 package AI.EF;
 
 import AI.AIUtils;
-import ticTacToe.AbsTicTacToe;
+import ticTacToe.AbsTicTacToeAI;
 
 /**
  * This class implements a simple function of evaluation
@@ -11,11 +11,11 @@ import ticTacToe.AbsTicTacToe;
 public class SimpleEF implements IEvalFunction{
 
     @Override
-    public double eval(AbsTicTacToe state) {
+    public double eval(AbsTicTacToeAI state, int currentAI) {
         char[][] field = state.getField();
         if(state.checkEnd()){
             if(state.checkWinner()){
-                if(state.getActivePlayer() == 1) {
+                if(state.getActivePlayer() == currentAI) {
                     return field.length;
                 }else{
                     return -field.length;
@@ -24,7 +24,7 @@ public class SimpleEF implements IEvalFunction{
                 return 0;
             }
         } else{
-            double valAI = AIUtils.SimpleAIAlgorithm(field,1);
+            double valAI = AIUtils.SimpleAIAlgorithm(field,currentAI);
             return valAI;
         }
     }
