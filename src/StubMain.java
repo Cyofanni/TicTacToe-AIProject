@@ -11,10 +11,10 @@ import ticTacToe.TicTacToeAI;
 
 public class StubMain{
     public static void main(String[] args) {
-        AbsConfig config0 = new Config(1,3,0,0,0,100);
+        AbsConfig config0 = new Config(1,5,0,0,1,2);
         AbsConfig config1 = new Config(1,3,0,0,0,2);
-        AbsConfig config2 = new Config(0,3,0,0,1,100);
-        AbsConfig config3 = new Config(0,3,0,0,1,2);
+        AbsConfig config2 = new Config(1,3,0,0,1,100);
+        AbsConfig config3 = new Config(1,3,0,0,1,2);
         AbsTicTacToe ticaTacToe0 = new TicTacToeAI(config0);
         ticaTacToe0.start();
 

@@ -190,12 +190,81 @@ public abstract class AbsEvalFunction implements IEvalFunction{
 
         if(state.checkWinner()){
             if(state.getActivePlayer() == currentAI) {
-                result+= length * 4; // this is sufficient with 3length + 3 + result
+                result+= length * 100; // this is sufficient with 3length + 3 + result for simple AI
             }else{
-                result-= length * 4;
+                result-= length * 100;
             }
         }
 
         return result;
+    }
+
+    /**
+     * This AI return the number of rows, columns and diagonals in which the player can do tris
+     * @param field
+     * @param player
+     * @return The number
+     */
+    public static double FreeSpace(char[][] field, int player){
+        int n = field.length;
+        int count = 0;
+        int otherPlayer = (player+1) %2;
+
+        // Find repetitions in columns
+        for(int row = 0; row < n; row ++){
+            boolean find = false;
+            for(int column = 0; column < n; column ++){
+                if(field[row][column] == AbsTicTacToe.PLAYERSVALUE[otherPlayer] ||
+                        field[row][column] == AbsTicTacToe.LOCKEDVALUE){
+                    find = true;
+                    break;
+                }
+            }
+            if(!find){
+                count++;
+            }
+        }
+
+        // Find repetitions in rows
+        for(int column = 0; column < n; column ++){
+            boolean find = false;
+            for(int row = 0; row < n; row ++){
+                if(field[row][column] == AbsTicTacToe.PLAYERSVALUE[otherPlayer] ||
+                        field[row][column] == AbsTicTacToe.LOCKEDVALUE){
+                    find = true;
+                    break;
+                }
+            }
+            if(!find){
+                count++;
+            }
+        }
+
+        // Find repetitions in diagonals
+        boolean find1 = false;
+        for(int i = 0; i < n; i ++){
+            if(field[i][i] == AbsTicTacToe.PLAYERSVALUE[otherPlayer] ||
+                    field[i][i] == AbsTicTacToe.LOCKEDVALUE){
+                find1 = true;
+                break;
+            }
+        }
+        if(!find1){
+            count++;
+        }
+
+        boolean find2 = false;
+        for(int i = 0; i < n; i ++){
+            if(field[i][n - i - 1] == AbsTicTacToe.PLAYERSVALUE[otherPlayer] ||
+                    field[i][n - i -1] == AbsTicTacToe.LOCKEDVALUE){
+                find2 = true;
+                break;
+            }
+        }
+        if(!find2){
+            count++;
+        }
+
+        return count * 10;
     }
 }

@@ -10,6 +10,7 @@ import ticTacToe.AbsTicTacToeAI;
  */
 public class SimpleEF extends AbsEvalFunction{
 
+    /*
     @Override
     public double eval(AbsTicTacToeAI state, int currentAI) {
         char[][] field = state.getField();
@@ -22,6 +23,22 @@ public class SimpleEF extends AbsEvalFunction{
             result += AbsEvalFunction.ExtraScoreSimple(field, currentAI);
             double valAI = AbsEvalFunction.SimpleAIAlgorithm(field,currentAI);
             result+= valAI;
+        }
+
+        return result;
+    }
+    */
+
+    public double eval(AbsTicTacToeAI state, int currentAI) {
+        char[][] field = state.getField();
+        double result = 0;
+
+
+        if(state.checkEnd()){
+            result += AbsEvalFunction.WinScore(state,currentAI);
+        } else{
+            double valAI = AbsEvalFunction.FreeSpace(field,currentAI);
+            result+= valAI ;
         }
 
         return result;
