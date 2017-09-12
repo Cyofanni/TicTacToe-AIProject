@@ -44,9 +44,9 @@ public class AdvanceEF  extends AbsEvalFunction{
             result += AbsEvalFunction.WinScore(state,currentAI);
         } else{
             //Evaluate the fields from both the AI and player
-            double valAI = AbsEvalFunction.FreeSpace(field,currentAI);
-            double valPlayer = AbsEvalFunction.FreeSpace(field,otherAI);
-            result += valAI - valPlayer ;
+            result += AbsEvalFunction.FreeSpace(field,currentAI);
+            double valAI = AbsEvalFunction.SimpleAIAlgorithm(field,currentAI);
+            result += valAI/field.length;
         }
 
         return result;

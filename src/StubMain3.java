@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class StubMain3 {
     public static void main(String[] args) {
         int nRip = 100000;
-        AbsConfig config0 = new Config(0,3,0,0,0,2,0,0,2);
+        AbsConfig config0 = new Config(0,3,0,0,0,100,0,0,100);
 
         ArrayList<ArrayList<AbsResult>> resP0 = new ArrayList<ArrayList<AbsResult>>();
         ArrayList<ArrayList<AbsResult>> resP1 = new ArrayList<ArrayList<AbsResult>>();

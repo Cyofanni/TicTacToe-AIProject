@@ -208,6 +208,7 @@ public abstract class AbsEvalFunction implements IEvalFunction{
     public static double FreeSpace(char[][] field, int player){
         int n = field.length;
         int count = 0;
+        int length = field.length;
         int otherPlayer = (player+1) %2;
 
         // Find repetitions in columns
