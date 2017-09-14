@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
-final public class MinimaxABPRot extends AbsMinimaxABP{
+public class MinimaxABPRot extends AbsMinimaxABP{
 	//Create the object used to save the fields
 	MatrixOperations mop = new MatrixOperations();
 
@@ -27,6 +27,8 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 	protected double maxValue(AbsTicTacToeAI state, double alpha, double beta, int depthP, int currentAI) {
 		//Statistics: Count the new node
 		this.res.addNode();
+		int level = this.getDepth() - depthP;
+		mop.add(level,state.getField());
 
 		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
@@ -34,11 +36,11 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
-			res.setNearestLevel(this.getDepth() - depthP -1);
+			res.setNearestLevel(level);
 			return fvalue;
 		}
 
-		mop.add(state.getField());
+
 		double v = Double.NEGATIVE_INFINITY;
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
 
@@ -46,10 +48,10 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 			AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
 			newState.move(actions.get(i));
 			char[][] currFieldConf = newState.getField();
-			boolean matchFound = mop.checkExistence(currFieldConf);
+			boolean matchFound = mop.checkExistence(level + 1, currFieldConf);
 
 			if (matchFound == false){
-            			double min = minValue(newState,alpha, beta, depthP - 1, currentAI);
+				double min = minValue(newState,alpha, beta, depthP - 1, currentAI);
 				if (min > v)
 					v = min;
 
@@ -67,6 +69,8 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 	protected double minValue(AbsTicTacToeAI state, double alpha, double beta, int depthP, int currentAI) {
 		//Statistics: Count the new node
 		this.res.addNode();
+		int level = this.getDepth() - depthP;
+		mop.add(level, state.getField());
 
 		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
@@ -74,11 +78,11 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
-			res.setNearestLevel(this.getDepth() - depthP -1);
+			res.setNearestLevel(level);
 			return fvalue;
 		}
 
-		mop.add(state.getField());
+
 		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
@@ -87,7 +91,7 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 			newState.move(actions.get(i));
 
 			char[][] currFieldConf = newState.getField();
-			boolean matchFound = mop.checkExistence(currFieldConf);
+			boolean matchFound = mop.checkExistence(level + 1,currFieldConf);
 
 			if (matchFound == false){
 				double max = maxValue(newState, alpha, beta, depthP - 1, currentAI);
@@ -103,5 +107,17 @@ final public class MinimaxABPRot extends AbsMinimaxABP{
 		}
 
 		return v;
+	}
+
+	@Override
+	protected double callComputeMove(AbsTicTacToeAI state, int depthP, int currentAI){
+		char[][] currFieldConf = state.getField();   //get the field from the new state
+		int level = this.getDepth() - depthP;
+		boolean matchFound = mop.checkExistence(level + 1, currFieldConf);
+		if (matchFound == false) {
+			return minValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depthP - 1, currentAI);
+		} else{
+			return Double.NEGATIVE_INFINITY;
+		}
 	}
 }

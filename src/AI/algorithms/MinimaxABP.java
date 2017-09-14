@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
-final public class MinimaxABP extends AbsMinimaxABP{
+public class MinimaxABP extends AbsMinimaxABP{
 
  	public MinimaxABP(int depth, IEvalFunction f){
 		super(depth,f);
@@ -30,7 +30,7 @@ final public class MinimaxABP extends AbsMinimaxABP{
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
-			res.setNearestLevel(this.getDepth() - depthP -1);
+			res.setNearestLevel(this.getDepth() - depthP);
 			return fvalue;
 		}
 
@@ -64,7 +64,7 @@ final public class MinimaxABP extends AbsMinimaxABP{
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
-			res.setNearestLevel(this.getDepth() - depthP -1);
+			res.setNearestLevel(this.getDepth() - depthP);
 			return fvalue;
 		}
 
@@ -87,5 +87,10 @@ final public class MinimaxABP extends AbsMinimaxABP{
 		}
 
 		return v;
+	}
+
+	@Override
+	protected double callComputeMove(AbsTicTacToeAI state, int depthP, int currentAI){
+		return minValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depthP - 1, currentAI);
 	}
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Davide Rigoni, Giovanni Mazzocchin, Alex Beccaro
  */
 
-final public class MinimaxRot extends AbsMinimax{
+public class MinimaxRot extends AbsMinimax{
 
  	public MinimaxRot(int depth, IEvalFunction f){
 		super(depth,f);
@@ -26,6 +26,8 @@ final public class MinimaxRot extends AbsMinimax{
 	protected double maxValue(AbsTicTacToeAI state, int depthP, int currentAI) {
 		//Statistics: Count the new node
 		this.res.addNode();
+		int level = this.getDepth() - depthP;
+		mop.add(level, state.getField());
 
 		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
@@ -33,11 +35,11 @@ final public class MinimaxRot extends AbsMinimax{
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
-			res.setNearestLevel(this.getDepth() - depthP -1);
+			res.setNearestLevel(level);
 			return fvalue;
 		}
 
-		mop.add(state.getField());
+
 		double v = Double.NEGATIVE_INFINITY;
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());    //create an array with the legal action from the state
 
@@ -45,11 +47,11 @@ final public class MinimaxRot extends AbsMinimax{
 			AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
 			newState.move(actions.get(i));
 			char[][] currFieldConf = newState.getField();
-			boolean matchFound = mop.checkExistence(currFieldConf);
+			boolean matchFound = mop.checkExistence(level + 1, currFieldConf);
 
 			//recursive call only if the field is rotation-independently new
 			if (matchFound == false){
-                        	double min = minValue(newState, depthP - 1, currentAI);
+				double min = minValue(newState, depthP - 1, currentAI);
 				if (min > v){
 				   v = min;
 				}
@@ -63,6 +65,8 @@ final public class MinimaxRot extends AbsMinimax{
 	protected double minValue(AbsTicTacToeAI state, int depthP, int currentAI) {
 		//Statistics: Count the new node
 		this.res.addNode();
+		int level = this.getDepth() - depthP;
+		mop.add(level, state.getField());
 
 		//Check the end of the game or the max depth
 		if (state.checkEnd() || depthP == 0){
@@ -70,11 +74,10 @@ final public class MinimaxRot extends AbsMinimax{
 
 			//Statistics: Set best score and nearest level
 			res.setBestScore(fvalue);
-			res.setNearestLevel(this.getDepth() - depthP -1);
+			res.setNearestLevel(level);
 			return fvalue;
 		}
 
-		mop.add(state.getField());
 		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
@@ -82,7 +85,7 @@ final public class MinimaxRot extends AbsMinimax{
 			AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
 			newState.move(actions.get(i));
 			char[][] currFieldConf = newState.getField();   //get the field from the new state
-			boolean matchFound = mop.checkExistence(currFieldConf);
+			boolean matchFound = mop.checkExistence(level + 1, currFieldConf);
 
 			//recursive call only if the field is rotation-independently new
 			if (matchFound == false){
@@ -92,8 +95,24 @@ final public class MinimaxRot extends AbsMinimax{
 				   v = max;
 				}
 			}
+			else{
+				int a = 3;
+			}
 		}
 
 		return v;
+	}
+
+	@Override
+	protected double callComputeMove(AbsTicTacToeAI state, int depthP, int currentAI){
+		char[][] currFieldConf = state.getField();   //get the field from the new state
+		int level = this.getDepth() - depthP;
+		boolean matchFound = mop.checkExistence(level + 1, currFieldConf);
+		if (matchFound == false) {
+			return minValue(state, depthP - 1, currentAI);
+		} else{
+			return Double.NEGATIVE_INFINITY;
+		}
+
 	}
 }

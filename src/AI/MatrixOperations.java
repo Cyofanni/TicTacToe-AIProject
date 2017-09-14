@@ -8,47 +8,68 @@ import java.util.ArrayList;
 public class MatrixOperations {
 
     //a private array (ArrayList of char[][]) could store the configurations
-    private ArrayList<char[][]> storedStates = new ArrayList<char[][]>();
+
+    private ArrayList<ArrayList<char[][]>> storedStates = new ArrayList<ArrayList<char[][]>>();
 
 
     //Allow access to the ArrayList
-    public char[][] get(int i){
-        return storedStates.get(i);
+    public char[][] get(int level, int i){
+        return (storedStates.get(level).get(i));
+    }
+
+    //Allow access to the ArrayList
+    public int getSize(int level){
+        return storedStates.get(level).size();
     }
 
     //Add a char[][] to the ArrayList
-    public void add(char[][] field){
-        storedStates.add(field);
+    public void add(int level, char[][] field){
+        ArrayList<char[][]> a;
+        if(storedStates.size() - 1 < level)
+        {
+            a = new ArrayList<>();
+            a.add(field);
+            storedStates.add(a);
+        }else{
+            a = storedStates.get(level);
+            a.add(field);
+        }
     }
 
     //Check if already exist
-    public boolean checkExistence(char[][] field){
-        /***1) Compute 90-degree right rotation (transpose + reverse columns) of 'currFieldConf'***/
-        char[][] rotated90_r = transposeMatrix(field);
-        rotated90_r = reverseCols(rotated90_r);
-        /***********************************************************************/
+    public boolean checkExistence(int level, char[][] field){
+        //Control due to the NULL POINTER EXCEPTION
+        if(storedStates.size() -1 < level )
+            return false;
+        else{
+            /***1) Compute 90-degree right rotation (transpose + reverse columns) of 'currFieldConf'***/
+            char[][] rotated90_r = transposeMatrix(field);
+            rotated90_r = reverseCols(rotated90_r);
+            /***********************************************************************/
 
-        /***2) Compute 90-degree left rotation (transpose + reverse rows) of 'currFieldConf'***/
-        char[][] rotated90_l = transposeMatrix(field);
-        rotated90_l = reverseRows(rotated90_l);
-        /***********************************************************************/
+            /***2) Compute 90-degree left rotation (transpose + reverse rows) of 'currFieldConf'***/
+            char[][] rotated90_l = transposeMatrix(field);
+            rotated90_l = reverseRows(rotated90_l);
+            /***********************************************************************/
 
-        /***3) Compute 180-degree rotation (reverse rows + reverse columns) of 'currFieldConf'***/
-        char[][] rotated180 = reverseRows(field);
-        rotated180 = reverseCols(rotated180);
-        /***********************************************************************/
+            /***3) Compute 180-degree rotation (reverse rows + reverse columns) of 'currFieldConf'***/
+            char[][] rotated180 = reverseRows(field);
+            rotated180 = reverseCols(rotated180);
+            /***********************************************************************/
 
 			/*look for a match of this rotations against stored states*/
-        boolean matchFound = false;
-        for (int j = 0; j < storedStates.size() && matchFound == false; j++){
-            //use private method 'checkFieldEq' to check equality of 2 char[][]
-            if (checkFieldEq(storedStates.get(j), rotated90_r) ||
-                    checkFieldEq(storedStates.get(j), rotated90_l) ||
-                    checkFieldEq(storedStates.get(j), rotated180)){
-                matchFound = true;
+            boolean matchFound = false;
+            for (int j = 0; j < this.getSize(level) && matchFound == false; j++){
+                //use private method 'checkFieldEq' to check equality of 2 char[][]
+                if (checkFieldEq(this.get(level,j), rotated90_r) ||
+                        checkFieldEq(this.get(level,j), rotated90_l) ||
+                        checkFieldEq(this.get(level,j), rotated180)){
+                    matchFound = true;
+                }
             }
+            return matchFound;
         }
-        return matchFound;
+
     }
 
     //----------------------------------------------------------------

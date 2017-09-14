@@ -24,31 +24,4 @@ public abstract class AbsMinimax extends AbsMinimaxStructure {
 
     protected abstract double minValue(AbsTicTacToeAI state, int depthP, int currentAI);
 
-    @Override
-    public AbsMove computeMove(AbsTicTacToeAI state, int currentAI){
-        //Start the time and sum 1 to node because of root
-        this.mop = new MatrixOperations();
-        this.res = new Result();
-        this.res.startTime();
-        this.res.addNode();
-
-        ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());
-        double max = Double.NEGATIVE_INFINITY;
-        AbsMove bestMove = null;
-
-        for (int i = 0; i < actions.size(); i++){
-            AbsTicTacToeAI newState = (AbsTicTacToeAI)state.deepClone();
-            newState.move(actions.get(i));
-            double minValue = minValue(newState, this.getDepth() - 1,currentAI);
-            if (minValue > max){
-                max = minValue;
-                bestMove = actions.get(i);
-            }
-        }
-
-        //End time and return the best move
-        this.res.endTime();
-        return bestMove;
-
-    }
 }
