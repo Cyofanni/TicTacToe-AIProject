@@ -9,9 +9,9 @@ import ticTacToe.AbsResult;
 import ticTacToe.TicTacToe2AI;
 
 
-public class StatisticsMain3 {
+public class StatisticsMain4 {
     public static void main(String[] args) {
-        String nameFile = "statisticsMain3.txt";
+        String nameFile = "statisticsMain4.txt";
         printFile(nameFile,"----START-----");
         thirdPart(nameFile);
         printFile(nameFile,"----END-----");
@@ -23,10 +23,10 @@ public class StatisticsMain3 {
     }
 
     public  static void thirdPart(String nameFile){
-        AbsConfig config0 = new Config(0,5,0,0,0,100,0,0,1);
-        AbsConfig config1 = new Config(0,5,0,1,0,100,0,0,1);
-        AbsConfig config2 = new Config(0,5,0,2,0,100,0,0,1);
-        AbsConfig config3 = new Config(0,5,0,3,0,100,0,0,1);
+        AbsConfig config0 = new Config(0,5,0,0,0,5,0,0,1);
+        AbsConfig config1 = new Config(0,5,0,1,0,5,0,0,1);
+        AbsConfig config2 = new Config(0,5,0,2,0,5,0,0,1);
+        AbsConfig config3 = new Config(0,5,0,3,0,5,0,0,1);
 
         //Node statistics
         AbsResult res0;

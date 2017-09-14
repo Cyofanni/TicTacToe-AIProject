@@ -16,7 +16,7 @@ public class StubMain1 {
         AbsConfig config2 = new Config(1,3,0,2,0,1000);
         AbsConfig config3 = new Config(1,3,0,3,0,1000);
         AbsTicTacToe ticaTacToe0 = new TicTacToeAI(config0);
-        //ticaTacToe0.start();
+        ticaTacToe0.start();
 
         AbsTicTacToe ticaTacToe1 = new TicTacToeAI(config1);
         //ticaTacToe1.start();
@@ -25,6 +25,6 @@ public class StubMain1 {
         //ticaTacToe2.start();
 
         AbsTicTacToe ticaTacToe3 = new TicTacToeAI(config3);
-        ticaTacToe3.start();
+        //ticaTacToe3.start();
     }
 }

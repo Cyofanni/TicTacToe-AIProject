@@ -1,8 +1,5 @@
 package ticTacToe;
 
-import AI.EF.AdvanceEF;
-import AI.EF.IEvalFunction;
-import AI.EF.SimpleEF;
 import AI.algorithms.*;
 import config.AbsConfig;
 

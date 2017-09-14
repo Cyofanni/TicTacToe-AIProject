@@ -39,7 +39,6 @@ public class MinimaxRot extends AbsMinimax{
 			return fvalue;
 		}
 
-
 		double v = Double.NEGATIVE_INFINITY;
 		ArrayList<AbsMove> actions = AIUtils.computeActions(state.getField());    //create an array with the legal action from the state
 
@@ -78,6 +77,7 @@ public class MinimaxRot extends AbsMinimax{
 			return fvalue;
 		}
 
+
 		double v = Double.POSITIVE_INFINITY;
 		ArrayList< AbsMove> actions = AIUtils.computeActions(state.getField());
 
@@ -108,7 +108,7 @@ public class MinimaxRot extends AbsMinimax{
 		char[][] currFieldConf = state.getField();   //get the field from the new state
 		int level = this.getDepth() - depthP;
 		boolean matchFound = mop.checkExistence(level + 1, currFieldConf);
-		if (matchFound == false) {
+		if (!matchFound) {
 			return minValue(state, depthP - 1, currentAI);
 		} else{
 			return Double.NEGATIVE_INFINITY;

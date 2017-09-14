@@ -1,12 +1,8 @@
 package AI.algorithms;
 
 
-import AI.AIUtils;
 import AI.EF.IEvalFunction;
-import AI.MatrixOperations;
 import ticTacToe.*;
-
-import java.util.ArrayList;
 
 /**
  * Created by davide on 05/09/17.

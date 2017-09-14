@@ -14,7 +14,7 @@ import java.math.BigInteger;
 public class StatisticsMain1 {
     public static void main(String[] args) {
         String nameFile = "statisticsMain1.txt";
-        int nRip = 100000;
+        int nRip = 50000;
         printFile(nameFile,"----START-----");
         firstPart(nameFile, nRip);
         printFile(nameFile,"----END-----");

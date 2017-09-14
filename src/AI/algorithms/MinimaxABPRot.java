@@ -114,7 +114,7 @@ public class MinimaxABPRot extends AbsMinimaxABP{
 		char[][] currFieldConf = state.getField();   //get the field from the new state
 		int level = this.getDepth() - depthP;
 		boolean matchFound = mop.checkExistence(level + 1, currFieldConf);
-		if (matchFound == false) {
+		if (!matchFound) {
 			return minValue(state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depthP - 1, currentAI);
 		} else{
 			return Double.NEGATIVE_INFINITY;
