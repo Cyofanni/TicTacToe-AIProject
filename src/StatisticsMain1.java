@@ -5,7 +5,7 @@
 
 import config.AbsConfig;
 import config.Config;
-import ticTacToe.TicTacToe2AI;
+import ticTacToe.StatisticsTicTacToe2AI;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -14,7 +14,7 @@ import java.math.BigInteger;
 public class StatisticsMain1 {
     public static void main(String[] args) {
         String nameFile = "statisticsMain1.txt";
-        int nRip = 50000;
+        int nRip = 1000;
         printFile(nameFile,"----START-----");
         firstPart(nameFile, nRip);
         printFile(nameFile,"----END-----");
@@ -28,8 +28,9 @@ public class StatisticsMain1 {
         AbsConfig config3 = new Config(0,3,0,3,0,100,0,0,1);
 
         printFile(nameFile,"TIME STATISTICS 3x3 alg0: " + cycle(config0,nRip));
-        printFile(nameFile,"TIME STATISTICS 3x3 alg1: " + cycle(config1,nRip));
         printFile(nameFile,"TIME STATISTICS 3x3 alg2: " + cycle(config2,nRip));
+
+        printFile(nameFile,"TIME STATISTICS 3x3 alg1: " + cycle(config1,nRip));
         printFile(nameFile,"TIME STATISTICS 3x3 alg3: " + cycle(config3,nRip));
     }
 
@@ -38,7 +39,7 @@ public class StatisticsMain1 {
         BigDecimal bigNRip = BigDecimal.valueOf(nRip);
 
         for(int i = 0; i < nRip; i++) {
-            TicTacToe2AI ticaTacToe = new TicTacToe2AI(config);
+            StatisticsTicTacToe2AI ticaTacToe = new StatisticsTicTacToe2AI(config);
             ticaTacToe.start();
             long value = ticaTacToe.getResultsP0().get(0).getTime();
             time = time.add(BigInteger.valueOf(value));
